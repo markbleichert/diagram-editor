@@ -1,14 +1,38 @@
 import React from 'react';
 import { DropTarget } from 'react-dnd';
 import * as RJD from 'react-js-diagrams';
+import { engine } from './engine';
+import { InputNodeModel } from './nodes/input/InputNodeModel';
+
+// Setup the diagram model
+let diagramModel = new RJD.DiagramModel();
 
 const target = {
-    drop(props, monitor, component ) {
-
+    drop(props, monitor) {
         const { x: pageX, y: pageY } = monitor.getSourceClientOffset();
+        const { left = 0, top = 0 } = engine.canvas.getBoundingClientRect();
+        const { offsetX, offsetY } = engine.diagramModel;
+        const x = pageX - left - offsetX;
+        const y = pageY - top - offsetY;
         const item = monitor.getItem();
 
-        console.log(item);
+        let node;
+        if (item.type === 'question') {
+            node = new InputNodeModel('Question Node');
+        }
+        if (item.type === 'endpoint') {
+            node = new InputNodeModel('Endpoint Node');
+        }
+
+        node.x = x;
+        node.y = y;
+        diagramModel.addNode(node);
+
+        // update the diagram with new widget
+        props.onModelChanged(diagramModel.serializeDiagram(), null, () => {
+            engine.setDiagramModel(diagramModel);
+            engine.forceUpdate();
+        });
     }
 };
 
@@ -24,62 +48,29 @@ class Diagram extends React.Component {
         super(props);
     }
 
-    getSelectedNodeName() {
-        const { selectedNode } = this.props;
+    onChangeHandler(model, action) {
+        console.log(action);
 
-        if (selectedNode) {
-            return selectedNode.name;
+        // Check for canvas events
+        const deselectEvts = ['canvas-click', 'canvas-drag', 'items-selected', 'items-drag-selected', 'items-moved'];
+        if (deselectEvts.indexOf(action.type) !== -1) {
+            return this.props.onModelChanged(model, action.model);
         }
 
-        return null;
-    }
+        // Check for single selected items
+        if (['node-selected', 'node-moved'].indexOf(action.type) !== -1) {
+            return this.props.onModelChanged(model, action.model);
+        }
 
-    parsePorts(ports) {
-        return ports.map((port, index) => {
-            return (
-                <div key={index} className="port">port-{port}</div>
-            )
-        })
-    }
-    onNodeClick(node, e) {
-        e.stopPropagation();
-        this.props.onChange(node);
-    }
-
-    onNodeRemove(node) {
-        const okNodes = this.props.model.nodes.filter((item) => {
-           return item !== node;
-        });
-
-        // create a new model containing all but the removable node
-        const newModel = Object.assign({}, this.props.model);
-        newModel.nodes = okNodes;
-
-        this.props.onModelChanged(newModel);
-    }
-    parseModel() {
-        return this.props.model.nodes.map((node, index) => {
-            return (
-                <div key={index} className="node" onClick={this.onNodeClick.bind(this, node)}>
-                    <div className="remove-node" onClick={this.onNodeRemove.bind(this, node)}>x</div>
-                    <div>{node.name}</div>
-                    <div className="ports">
-                        {this.parsePorts(node.ports)}
-                    </div>
-                </div>
-            )
-        });
+        this.props.onModelChanged(model);
     }
 
     render() {
         const { connectDropTarget } = this.props;
 
         return connectDropTarget (
-            <div className="diagram" onClick={this.onNodeClick.bind(this, null)}>
-                <div className="selected-node">SelectedNode: { this.getSelectedNodeName() }</div>
-                <div className="parsed-nodes">
-                    <div>{this.parseModel()}</div>
-                </div>
+            <div className="diagram">
+                <RJD.DiagramWidget diagramEngine={engine} onChange={this.onChangeHandler.bind(this)}/>
             </div>
         )
     }

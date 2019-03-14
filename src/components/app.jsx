@@ -14,13 +14,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            model: {
-                name: 'model1',
-                nodes: [
-                    { id: 1, name: 'node 1', ports: [1,2] },
-                    { id: 2, name: 'node 2', ports: [1] }
-                ]
-            },
+            model: null,
             selectedNode: null
         }
     }
@@ -32,13 +26,14 @@ class App extends React.Component {
             return item.id !== node.id
         });
 
-        updatedModel.nodes = filtered;
+        console.log(updatedModel, filtered);
+        // updatedModel.nodes = filtered;
         updatedModel.nodes.push(node);
 
-        this.setState({
-            selectedNode: node,
-            model: updatedModel
-        });
+        // this.setState({
+        //     selectedNode: node,
+        //     model: updatedModel
+        // });
     }
 
     onDiagramChanged(node) {
@@ -47,10 +42,11 @@ class App extends React.Component {
         });
     }
 
-    onModelChanged(model) {
+    onModelChanged(model, node, cb) {
         this.setState({
-            model: model
-        });
+            model: model,
+            selectedNode: node,
+        }, cb);
     }
 
     render() {

@@ -44,7 +44,7 @@ html, body, .app-container {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	height: 50%;
+	height: 25%;
 	background-color: #fff;
 	border-left: 1px solid #ccc;
 
@@ -75,7 +75,7 @@ html, body, .app-container {
 }
 
 .console-panel {
-	height: 50%;
+	height: 75%;
 	background-color: lightyellow;
 	flex: 1;
 	max-width: 28rem;

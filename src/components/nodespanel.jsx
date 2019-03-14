@@ -10,7 +10,7 @@ class Node extends React.Component {
             return <InputNodeWidget node={{ name: 'QA Node' }} color={color} displayOnly/>;
         }
         if (type === 'endpoint') {
-            return <InputNodeWidget className="draggable" node={{ name: 'Endpoint Node' }} displayOnly/>;
+            return <InputNodeWidget node={{ name: 'Endpoint Node' }} color={color} displayOnly/>;
         }
 
         console.warn('Unknown node type');

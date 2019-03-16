@@ -6,11 +6,41 @@ class PropsPanel extends React.Component {
         super(props);
     }
 
+    updateChanges(nextNode) {
+        const { nodes } = this.props.model;
+
+        const updatableNode = nodes.find((node) => {
+            return node.id === nextNode.id;
+        });
+
+        const updatableKeys = Object.keys(nextNode).filter((key) => {
+            return (typeof nextNode[key] === 'string' || typeof nextNode[key] === 'number');
+        });
+
+        Object.keys(updatableNode).forEach((key) => {
+            if(updatableKeys.indexOf(key) > -1) {
+                // update only when changed
+                if (updatableNode[key] !== nextNode[key]) {
+                    updatableNode[key] = nextNode[key]
+                }
+            }
+        });
+
+        return this.props.model;
+    }
+
     onFocusOut(e) {
-        const clone = Object.assign({}, this.props.selectedNode);
         const key = e.target.getAttribute('data-key');
-        clone[key] = e.target.innerText;
-        this.props.onSelectionChanged(clone);
+
+        // create change object and update key value
+        const changeObject = Object.assign({}, this.props.selectedNode);
+        changeObject[key] = e.target.innerText;
+
+        // update changes with model node
+        const updateModel = this.updateChanges(changeObject);
+
+        // model is updated - update diagram !
+        this.props.onSelectionChanged(updateModel, changeObject);
     }
 
     getSimpleProps(selectedNode) {

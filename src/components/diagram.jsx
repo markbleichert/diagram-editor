@@ -47,41 +47,10 @@ class Diagram extends React.Component {
         super(props);
     }
 
-    updateChanges(nextNode) {
-        const { nodes } = this.props.model;
-
-        const updatableNode = nodes.find((node) => {
-            return node.id === nextNode.id;
-        });
-
-        const updatableKeys = Object.keys(nextNode).filter((key) => {
-            return (typeof nextNode[key] === 'string' || typeof nextNode[key] === 'number');
-        });
-
-        Object.keys(updatableNode).forEach((key) => {
-            if(updatableKeys.indexOf(key) > -1) {
-                // update only when changed
-                if (nodeInModel[key] !== nextNode[key]) {
-                    nodeInModel[key] = nextNode[key]
-                }
-            }
-        });
-
-        return this.props.model;
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (nextProps && nextProps.selectedNode && this.props.selectedNode) {
-
-            if (this.props.selectedNode.name !== nextProps.selectedNode.name) {
-                const newModel = this.updateChanges(nextProps.selectedNode);
-                return this.props.onModelChanged(newModel, nextProps.selectedNode);
-
-            }
-        }
-        // if (!_.isEqual(this.props, nextProps)) {
+        if(!_.isEqual(this.props, nextProps)) {
             this.setModel(nextProps.model, engine);
-        // }
+        }
     }
 
     setModel(model) {

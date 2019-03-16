@@ -25,7 +25,6 @@ class App extends React.Component {
     }
 
     updateModel(node) {
-        console.log(node.name)
         this.setState({
             selectedNode: node
         });
@@ -52,8 +51,9 @@ class App extends React.Component {
 
                 <div className="right-panel">
                     <PropsPanel
+                        model={this.state.model}
                         selectedNode={this.state.selectedNode}
-                        onSelectionChanged={this.updateModel.bind(this)} />
+                        onSelectionChanged={this.onModelChanged.bind(this)} />
                     <ConsolePanel model={this.state.model} />
                 </div>
             </div>

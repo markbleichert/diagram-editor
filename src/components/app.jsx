@@ -7,6 +7,11 @@ import PropsPanel from './propspanel';
 import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
 
+import * as RJD from 'react-js-diagrams';
+import { engine } from './engine';
+import { InputNodeModel } from './nodes/input/InputNodeModel';
+
+
 import '../style/test.scss';
 
 class App extends React.Component {
@@ -20,33 +25,18 @@ class App extends React.Component {
     }
 
     updateModel(node) {
-        let updatedModel = Object.assign({}, this.state.model);
-
-        const filtered = updatedModel.nodes.filter((item) => {
-            return item.id !== node.id
-        });
-
-        console.log(updatedModel, filtered);
-        // updatedModel.nodes = filtered;
-        updatedModel.nodes.push(node);
-
-        // this.setState({
-        //     selectedNode: node,
-        //     model: updatedModel
-        // });
-    }
-
-    onDiagramChanged(node) {
+        console.log(node.name)
         this.setState({
             selectedNode: node
         });
+
     }
 
-    onModelChanged(model, node, cb) {
+    onModelChanged(model, node) {
         this.setState({
             model: model,
             selectedNode: node,
-        }, cb);
+        });
     }
 
     render() {
@@ -58,7 +48,6 @@ class App extends React.Component {
                 <Diagram
                     selectedNode={this.state.selectedNode}
                     model={this.state.model}
-                    onChange={this.onDiagramChanged.bind(this)}
                     onModelChanged={this.onModelChanged.bind(this)}/>
 
                 <div className="right-panel">

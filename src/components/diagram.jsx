@@ -31,7 +31,7 @@ const target = {
         diagramModel.addNode(node);
 
         // update the diagram with new widget
-        props.onModelChanged(diagramModel.serializeDiagram());
+        props.updateModel(diagramModel.serializeDiagram());
     }
 };
 
@@ -54,7 +54,6 @@ class Diagram extends React.Component {
     }
 
     setModel(model) {
-        console.log('SET NEW MODEL');
         diagramModel = new RJD.DiagramModel();
         if (model) {
             diagramModel.deSerializeDiagram(model, engine);
@@ -63,20 +62,25 @@ class Diagram extends React.Component {
     }
 
     onChangeHandler(model, action) {
-        console.log(model, action);
+        console.log(`diagram changed: ${action.type}`);
+
+        // Ignore some events
+        if (['items-copied'].indexOf(action.type) !== -1) {
+            return;
+        }
 
         // Check for canvas events
         const deselectEvts = ['canvas-click', 'canvas-drag', 'items-selected', 'items-drag-selected', 'items-moved'];
         if (deselectEvts.indexOf(action.type) !== -1) {
-            return this.props.onModelChanged(model, action.model);
+            return this.props.updateModel(model, action.model);
         }
 
         // Check for single selected items
         if (['node-selected', 'node-moved'].indexOf(action.type) !== -1) {
-            return this.props.onModelChanged(model, action.model);
+            return this.props.updateModel(model, action.model);
         }
 
-        this.props.onModelChanged(model);
+        this.props.updateModel(model);
     }
 
     render() {

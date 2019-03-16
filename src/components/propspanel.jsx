@@ -21,7 +21,13 @@ class PropsPanel extends React.Component {
             if(updatableKeys.indexOf(key) > -1) {
                 // update only when changed
                 if (updatableNode[key] !== nextNode[key]) {
-                    updatableNode[key] = nextNode[key]
+                    if (typeof updatableNode[key] === 'number') {
+                        updatableNode[key] = Number(nextNode[key]);
+                    } else {
+                        updatableNode[key] = nextNode[key];
+                    }
+
+                    console.log(`key ${key} update..`);
                 }
             }
         });
@@ -40,7 +46,7 @@ class PropsPanel extends React.Component {
         const updateModel = this.updateChanges(changeObject);
 
         // model is updated - update diagram !
-        this.props.onSelectionChanged(updateModel, changeObject);
+        this.props.updateModel(updateModel, changeObject);
     }
 
     getSimpleProps(selectedNode) {

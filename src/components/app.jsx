@@ -7,11 +7,6 @@ import PropsPanel from './propspanel';
 import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
 
-import * as RJD from 'react-js-diagrams';
-import { engine } from './engine';
-import { InputNodeModel } from './nodes/input/InputNodeModel';
-
-
 import '../style/test.scss';
 
 class App extends React.Component {
@@ -24,14 +19,7 @@ class App extends React.Component {
         }
     }
 
-    updateModel(node) {
-        this.setState({
-            selectedNode: node
-        });
-
-    }
-
-    onModelChanged(model, node) {
+    onUpdateModel(model, node) {
         this.setState({
             model: model,
             selectedNode: node,
@@ -47,13 +35,13 @@ class App extends React.Component {
                 <Diagram
                     selectedNode={this.state.selectedNode}
                     model={this.state.model}
-                    onModelChanged={this.onModelChanged.bind(this)}/>
+                    updateModel={this.onUpdateModel.bind(this)}/>
 
                 <div className="right-panel">
                     <PropsPanel
                         model={this.state.model}
                         selectedNode={this.state.selectedNode}
-                        onSelectionChanged={this.onModelChanged.bind(this)} />
+                        updateModel={this.onUpdateModel.bind(this)} />
                     <ConsolePanel model={this.state.model} />
                 </div>
             </div>

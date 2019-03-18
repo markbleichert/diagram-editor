@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from './input';
+import { InputNodeModel } from './nodes/input/InputNodeModel'
 
 class PropsPanel extends React.Component {
     constructor(props) {
@@ -35,7 +35,7 @@ class PropsPanel extends React.Component {
         return this.props.model;
     }
 
-    onFocusOut(e) {
+    onFocusInputOut(e) {
         const key = e.target.getAttribute('data-key');
 
         // create change object and update key value
@@ -49,12 +49,51 @@ class PropsPanel extends React.Component {
         this.props.updateModel(updateModel, changeObject);
     }
 
+    onFocusPortOut(e) {
+        const key = e.target.getAttribute('data-key');
+        const value = e.target.innerText;
+
+        const nodeInModel = this.props.model.nodes.find((node) => {
+            return (node.id === this.props.selectedNode.id);
+        });
+
+        const portInModel = nodeInModel.ports.find((port) => {
+            return port.id === key;
+        });
+
+        // update port label in model
+        portInModel.label = value;
+
+        this.props.updateModel(this.props.model, nodeInModel);
+    }
+
+    onAddPort() {
+        const im = new InputNodeModel('input');
+        im.deSerialize(this.props.selectedNode);
+
+        const id = this.props.selectedNode.ports.length + 1;
+        im.addPortOut(`out${id}`, 'label text');
+
+        const node = im.serialize();
+
+        const lastPort = node.ports.pop();
+
+        const nodeInModel = this.props.model.nodes.find((node) => {
+            return (node.id === this.props.selectedNode.id);
+        });
+
+        nodeInModel.ports.push(lastPort);
+
+        this.props.updateModel(this.props.model, nodeInModel);
+    }
+
     getSimpleProps(selectedNode) {
         return Object.keys(selectedNode).filter((key) => {
             const value =  selectedNode[key];
             return ( typeof value === 'string' || typeof value === 'number');
         });
     }
+
     renderInputs(selectedNode) {
         return this.getSimpleProps(selectedNode).map((key) => {
             return (
@@ -62,7 +101,7 @@ class PropsPanel extends React.Component {
                     <label>{key}</label>
                     <div data-key={key}
                         contentEditable="true"
-                        onBlur={this.onFocusOut.bind(this)}
+                        onBlur={this.onFocusInputOut.bind(this)}
                         suppressContentEditableWarning={true}>
                         {selectedNode[key]}</div>
                 </div>
@@ -70,13 +109,46 @@ class PropsPanel extends React.Component {
         });
     }
 
+    renderPorts(selectedNode) {
+        const ports = selectedNode.ports;
+
+        return Object.keys(ports).map((key) => {
+            return (
+                <div key={key} className="input-row">
+                    <label>{ ports[key].name }</label>
+                    <div data-key={ports[key].id}
+                         contentEditable="true"
+                         onBlur={this.onFocusPortOut.bind(this)}
+                         suppressContentEditableWarning={true}>
+                        {ports[key].label}</div>
+                </div>
+            )
+        });
+    }
+
+
     render() {
         const { selectedNode } = this.props;
+
+        if (!selectedNode) {
+            return <div className="props-panel">no selection..</div>;
+        }
 
         return (
             <div className="props-panel">
                 <div className="container">
-                { selectedNode? this.renderInputs(selectedNode) : 'No selection made..' }
+                    <div className="props-section">
+                        { this.renderInputs(selectedNode) }
+                    </div>
+                    <div className="ports-section">
+                        <div>
+                            <label>Ports:</label>
+                            <button
+                                onClick={this.onAddPort.bind(this)}
+                                className="add-port-button">+</button>
+                        </div>
+                        {this.renderPorts(selectedNode) }
+                    </div>
                 </div>
             </div>
         )

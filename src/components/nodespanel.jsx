@@ -1,6 +1,7 @@
 import React from 'react';
 import DragWrapper from './DragWrapper';
 import { InputNodeWidget } from './nodes/input/InputNodeWidget';
+import { EndpointNodeWidget } from './nodes/endpoint/EndpointNodeWidget';
 
 class Node extends React.Component {
     renderNode() {
@@ -10,7 +11,7 @@ class Node extends React.Component {
             return <InputNodeWidget node={{ name: 'QA Node' }} color={color} displayOnly/>;
         }
         if (type === 'endpoint') {
-            return <InputNodeWidget node={{ name: 'Endpoint Node' }} color={color} displayOnly/>;
+            return <EndpointNodeWidget node={{ name: 'Endpoint Node' }} color={color} displayOnly/>;
         }
 
         console.warn('Unknown node type');
@@ -36,7 +37,7 @@ export default class NodesPanel extends React.Component {
                     <Node type='question' color='rgb(224, 28, 120)'/>
                 </div>
                 <div className='node-wrapper'>
-                    <Node type='endpoint' color='rgb(224, 98, 20)' />
+                    <Node type='endpoint' color='rgb(0, 155, 20)' />
                 </div>
             </div>
         );

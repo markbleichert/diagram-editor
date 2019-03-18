@@ -22,7 +22,7 @@ class App extends React.Component {
     onUpdateModel(model, node) {
         this.setState({
             model: model,
-            selectedNode: node,
+            selectedNode: node
         });
     }
 

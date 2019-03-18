@@ -44,13 +44,13 @@ html, body, .app-container {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	height: 25%;
+	height: 50%;
 	background-color: #fff;
 	border-left: 1px solid #ccc;
 
 
 	.container {
-		padding: 10px;
+		padding: 15px;
 	}
 
 	.input-row {
@@ -72,10 +72,27 @@ html, body, .app-container {
 		}
 
 	}
+
+	.ports-section {
+		margin-top: 20px;
+
+		.add-port-button {
+			margin: 5px;
+			width: 25px;
+			height: 25px;
+			border-radius: 20px;
+			font-size: small;
+		}
+
+		.add-port-button:hover {
+			border-color: cadetblue;
+			color: #ccc;
+		}
+	}
 }
 
 .console-panel {
-	height: 75%;
+	height: 50%;
 	background-color: lightyellow;
 	flex: 1;
 	max-width: 28rem;

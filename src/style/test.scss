@@ -15,16 +15,26 @@ html, body, .app-container {
 	height: 100%;
 	background: #eee;
 	display: flex;
-
+	flex-wrap: wrap;
 	font-family:Arial;
 	font-size: 13px;
+}
+
+.actionbar {
+	flex: 1 1 100%;
+	height: 5vh;
+
+	button {
+		padding: 8px;
+		margin: 4px;
+	}
 }
 
 .diagram {
 	flex: 2;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
+	height: 95vh;
 	background-color: #fff;
 	padding-left: 20px;
 }
@@ -33,6 +43,7 @@ html, body, .app-container {
 	flex: 0.5;
 	background-color: #fff;
 	border-right: 1px solid #ccc;
+	height: 95vh;
 }
 
 .right-panel {
@@ -44,9 +55,10 @@ html, body, .app-container {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
-	height: 50%;
+	height: 45vh;
 	background-color: #fff;
 	border-left: 1px solid #ccc;
+	overflow: auto;
 
 
 	.container {
@@ -92,13 +104,13 @@ html, body, .app-container {
 }
 
 .console-panel {
-	height: 50%;
+	height: 50vh;
 	background-color: lightyellow;
 	flex: 1;
-	max-width: 28rem;
+	max-width: 28vw;
 	overflow: auto;
 	border-left: 1px solid #ccc;
-	padding-left: 20px;
+	padding-left: 00px;
 }
 
 .editable-label {

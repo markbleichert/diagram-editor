@@ -6,6 +6,8 @@ import Diagram from './diagram';
 import PropsPanel from './propspanel';
 import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
+import ActionBar from './actionbar';
+
 import modeldata from './data';
 
 import '../style/test.scss';
@@ -30,6 +32,12 @@ class App extends React.Component {
     render() {
         return (
             <div className="app-container">
+                <div className="actionbar">
+                    <ActionBar
+                        model={this.state.model}
+                        updateModel={this.onUpdateModel.bind(this)}
+                    />
+                </div>
                 <div className="left-panel">
                     <NodesPanel />
                 </div>

@@ -17,8 +17,8 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            model: modeldata,
-            selectedNode: modeldata.nodes[0]
+            model: null,
+            selectedNode: null
         }
     }
 

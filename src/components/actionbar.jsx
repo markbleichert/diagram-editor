@@ -4,22 +4,32 @@ class ActionBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            models: [],
-            selectedId: null
+            savedModels: [],
+            selectedId: ''
         }
     }
 
     componentDidMount() {
         const models = this.getAllFromStorage();
         this.setState({
-            models: models,
+            savedModels: models,
             selectedId: models[0].id
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            selectedId: nextProps.model.id
+        })
     }
 
     onSaveModel(e) {
         const model = this.props.model;
         localStorage.setItem(model.id, JSON.stringify(model));
+
+        this.setState({
+            savedModels: this.getAllFromStorage()
+        });
     }
 
     onLoadModel(e) {
@@ -48,16 +58,22 @@ class ActionBar extends React.Component {
         return models;
     }
 
-    onSelectChange(e) {
-        this.setState({
-            selectedId: e.target.value
+    findModel(id) {
+        return this.state.savedModels.find((model) => {
+            return model.id === id;
         });
+    }
+
+    onSelectChange(e) {
+        const model = this.findModel(e.target.value);
+
+        this.props.updateModel(model, model.nodes[0]);
     }
 
     renderSelect() {
         return (
             <select value={this.state.selectedId} onChange={this.onSelectChange.bind(this)}>
-                {this.state.models.map((model) => <option key={model.id} value={model.id}>{model.id}</option>)}
+                {this.state.savedModels.map((model, index) => <option key={index} value={model.id}>{model.id}</option>)}
             </select>
         );
     }

@@ -9,9 +9,9 @@ export class InputNodeWidget extends React.Component {
   };
 
   onRemove() {
-    const { node, diagramEngine } = this.props;
-    node.remove();
-    diagramEngine.forceUpdate();
+      const { node, diagramEngine } = this.props;
+      node.remove();
+      diagramEngine.forceUpdate();
   }
 
   getInPorts() {

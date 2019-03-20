@@ -6,6 +6,7 @@ import Diagram from './diagram';
 import PropsPanel from './propspanel';
 import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
+import modeldata from './data';
 
 import '../style/test.scss';
 
@@ -14,8 +15,8 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            model: null,
-            selectedNode: null
+            model: modeldata,
+            selectedNode: modeldata.nodes[0]
         }
     }
 

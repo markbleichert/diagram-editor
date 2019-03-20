@@ -12,10 +12,6 @@ export class InputNodeModel extends RJD.NodeModel {
     this.color = color;
   }
 
-  addPortIn(id, label) {
-      this.addPort(new RJD.DefaultPortModel(true, id, label));
-  }
-
   addPortOut(id, label) {
       this.addPort(new RJD.DefaultPortModel(false, id, label));
   }

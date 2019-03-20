@@ -48,13 +48,17 @@ class Diagram extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.setModel(this.props.model);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(!_.isEqual(this.props, nextProps)) {
             this.setModel(nextProps.model, engine);
         }
     }
 
-    setModel(model) {
+    setModel(model, cb = null) {
         diagramModel = new RJD.DiagramModel();
         if (model) {
             diagramModel.deSerializeDiagram(model, engine);

@@ -15,12 +15,19 @@ class ActionBar extends React.Component {
             savedModels: models,
             selectedId: models[0].id
         });
+
+        // load the first one from storage
+        this.props.updateModel(models[0], models[0].nodes[0]);
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             selectedId: nextProps.model.id
-        })
+        });
+    }
+
+    onNewModel(e) {
+
     }
 
     onSaveModel(e) {
@@ -30,11 +37,6 @@ class ActionBar extends React.Component {
         this.setState({
             savedModels: this.getAllFromStorage()
         });
-    }
-
-    onLoadModel(e) {
-        const model = this.getAllFromStorage()[0];
-        this.props.updateModel(model, model.nodes[0]);
     }
 
     parseItem(item) {
@@ -80,8 +82,8 @@ class ActionBar extends React.Component {
     render() {
         return (
             <div className="actions">
+                <button onClick={this.onNewModel.bind(this)}>New Model</button>
                 <button onClick={this.onSaveModel.bind(this)}>Save Model</button>
-                <button onClick={this.onLoadModel.bind(this)}>Load Model</button>
                 { this.renderSelect()}
             </div>
         );

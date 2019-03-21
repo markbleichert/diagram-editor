@@ -25,7 +25,7 @@ class PropsPanel extends React.Component {
         Object.keys(updatableNode).forEach((key) => {
             if(updatableKeys.indexOf(key) > -1) {
                 // update only when changed
-                if (updatableNode[key] !== nextNode[key]) {
+                if (updatableNode[key] != nextNode[key]) {
                     if (typeof updatableNode[key] === 'number') {
                         updatableNode[key] = Number(nextNode[key]);
                     } else {
@@ -72,6 +72,15 @@ class PropsPanel extends React.Component {
         this.props.updateModel(this.props.model, nodeInModel);
     }
 
+    selectionHandler(el) {
+        var range = document.createRange();
+        range.selectNodeContents(el.target);
+
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
     onAddPort() {
         const im = new InputNodeModel('input');
         im.deSerialize(this.props.selectedNode);
@@ -109,6 +118,7 @@ class PropsPanel extends React.Component {
                     </label>
                     <div data-key={key}
                         contentEditable="true"
+                        onFocus={this.selectionHandler.bind(this)}
                         onBlur={this.onFocusInputOut.bind(this)}
                         suppressContentEditableWarning={true}>
                         {selectedNode[key]}</div>

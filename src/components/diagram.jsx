@@ -84,7 +84,7 @@ class Diagram extends React.Component {
         if (['node-selected', 'node-moved'].indexOf(action.type) !== -1) {
             return this.props.updateModel(model, action.model);
         }
-
+        // e.g.: items-deleted
         this.props.updateModel(model);
     }
 

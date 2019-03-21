@@ -1,4 +1,5 @@
 import React from 'react';
+import * as RJD from 'react-js-diagrams';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
@@ -7,8 +8,7 @@ import PropsPanel from './propspanel';
 import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
 import ActionBar from './actionbar';
-
-import modeldata from './data';
+import Storage from './storage';
 
 import '../style/test.scss';
 
@@ -16,17 +16,41 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
+        const models = Storage.getAllFromStorage();
+
         this.state = {
-            model: null,
+            savedModels: models,
+            model: models[0],
             selectedNode: null
         }
+    }
+
+    onModelCreated() {
+        const diagramModel = new RJD.DiagramModel();
+
+        Storage.saveToStorage(diagramModel);
+
+        this.setState({
+            model: diagramModel,
+            selectedNode: null,
+            savedModels: Storage.getAllFromStorage(),
+            selectedId: diagramModel.id
+        });
+    }
+
+    onSelectionChanged(selectedId) {
+        const model = Storage.getFromStorage(selectedId);
+        this.setState({
+            model: model,
+            selectedId: selectedId
+        });
     }
 
     onUpdateModel(model, node) {
         this.setState({
             model: model,
             selectedNode: node
-        });
+        }, () => Storage.saveToStorage(model));
     }
 
     render() {
@@ -34,8 +58,10 @@ class App extends React.Component {
             <div className="app-container">
                 <div className="actionbar">
                     <ActionBar
-                        model={this.state.model}
-                        updateModel={this.onUpdateModel.bind(this)}
+                        selectedId={this.state.model.id}
+                        savedModels={this.state.savedModels}
+                        selectionChanged={this.onSelectionChanged.bind(this)}
+                        modelCreated={this.onModelCreated.bind(this)}
                     />
                 </div>
                 <div className="left-panel">

@@ -7,4 +7,8 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
-module.hot.accept();
+// fix: make sure child components do not get unmounted by hot loader
+module.hot.accept('./components/app.jsx', () => {
+    const NextApp = require('./components/app.jsx').default;
+    render(<NextApp />);
+});

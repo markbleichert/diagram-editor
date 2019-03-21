@@ -1,9 +1,14 @@
 import React from 'react';
-import { InputNodeModel } from './nodes/input/InputNodeModel'
+import { TwitterPicker } from 'react-color';
+import { InputNodeModel } from './nodes/input/InputNodeModel';
 
 class PropsPanel extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            displayColorPicker: false,
+        };
     }
 
     updateChanges(nextNode) {
@@ -98,7 +103,10 @@ class PropsPanel extends React.Component {
         return this.getSimpleProps(selectedNode).map((key) => {
             return (
                 <div key={key} className="input-row">
-                    <label>{key}</label>
+                    <label>
+                        {key}
+                        { (key === 'color') ? this.renderColorPicker(key): null }
+                    </label>
                     <div data-key={key}
                         contentEditable="true"
                         onBlur={this.onFocusInputOut.bind(this)}
@@ -126,6 +134,48 @@ class PropsPanel extends React.Component {
         });
     }
 
+    handleClick() {
+        this.setState({ displayColorPicker: !this.state.displayColorPicker })
+    }
+
+    handleClose() {
+        this.setState({ displayColorPicker: false })
+    }
+
+    handleColorClick(key, e) {
+        this.onFocusInputOut({
+            target: {
+                innerText: `rgb(${e.rgb.r}, ${e.rgb.g}, ${e.rgb.b})`,
+                getAttribute: () => {
+                    return key;
+                }
+            }
+        });
+    }
+
+    renderColorPicker(key) {
+        const popover = {
+            position: 'absolute',
+            zIndex: '2',
+        }
+        const cover = {
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            left: '0px',
+        }
+
+        return (
+            <span className="color-picker">
+                <button onClick={ this.handleClick.bind(this) }>...</button>
+                { this.state.displayColorPicker ? <div style={ popover }>
+                    <div style={ cover } onClick={ this.handleClose.bind(this) }/>
+                    <TwitterPicker onChange={ this.handleColorClick.bind(this, key) }/>
+                </div> : null }
+            </span>
+        )
+    }
 
     render() {
         const { selectedNode } = this.props;

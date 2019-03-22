@@ -154,7 +154,13 @@ class PropsEditor extends React.Component {
         const { selectedNode } = this.props;
 
         if (!selectedNode) {
-            return <div className="props-panel">no selection..</div>;
+            return (
+                <div className="props-panel">
+                    <div className="container">
+                        no selection..
+                    </div>
+                </div>
+            );
         }
 
         return (

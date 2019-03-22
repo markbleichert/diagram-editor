@@ -19,7 +19,8 @@
     <script src="/qa-renderer.min.js"></script>
     <script>
         window.addEventListener('load', function() {
-            window.qa.start(window.qaData, 'qa-module');
+            window.parent.postMessage({ type: 'iframeLoaded'}, '*');
+            // window.qa.start(window.qaData, 'qa-module');
         });
     </script>
 </head>

@@ -9,8 +9,7 @@ import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
 import ActionBar from './actionbar';
 import Storage from './storage';
-
-import { transform } from './transformer';
+import Preview from './preview';
 
 import '../style/test.scss';
 
@@ -25,10 +24,6 @@ class App extends React.Component {
             model: models[0],
             selectedNode: null
         }
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        this.updatePreview(nextState.model);
     }
 
     onModelCreated() {
@@ -59,14 +54,6 @@ class App extends React.Component {
         }, () => Storage.saveToStorage(model));
     }
 
-    updatePreview(diagramModel) {
-        if (diagramModel.nodes.length > 0) {
-            const model = transform(diagramModel);
-            const iframe = document.getElementById('preview');
-            iframe.contentWindow.qa.start(model, 'qa-module');
-        }
-    }
-
     render() {
         return (
             <div className="app-container">
@@ -87,7 +74,7 @@ class App extends React.Component {
                         model={this.state.model}
                         updateModel={this.onUpdateModel.bind(this)}/>
                     <div className="preview-panel">
-                        <iframe id="preview" src="./preview.html" width="100%" height="100%" frameBorder="0"/>
+                        <Preview model={this.state.model} />
                     </div>
                 </div>
                 <div className="right-panel">

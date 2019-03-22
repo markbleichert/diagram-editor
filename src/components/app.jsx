@@ -10,6 +10,8 @@ import NodesPanel from './nodespanel';
 import ActionBar from './actionbar';
 import Storage from './storage';
 
+import { transform } from './transformer';
+
 import '../style/test.scss';
 
 class App extends React.Component {
@@ -57,12 +59,41 @@ class App extends React.Component {
         }, () => Storage.saveToStorage(model));
     }
 
-    updatePreview(model) {
-        // preview tool will come here soon..
-        const content = `<pre>${JSON.stringify(model, null, 2)}</pre>`;
-        const iframe = document.getElementById('preview');
-        iframe.contentWindow.document.body.innerHTML = content;
+    transform(model) {
+        const rootId = model.nodes[0].id;
+        model.root = rootId;
 
+        model.nodes.forEach((node) => {
+            if (node.type === 'input') {
+                node.template = 'QA_TILES';
+                node.question = node.name;
+
+                node.options =[];
+                node.ports.forEach((port)=> {
+                    if (!port.in) {
+                        node.options.push({
+                            id: port.id,
+                            text: port.label
+                        })
+                    }
+                });
+            }
+
+            if (node.type === 'endpoint') {
+                node.template = 'EP_CONTENT';
+            }
+
+        });
+
+        console.log(model);
+
+        return model;
+    }
+
+    updatePreview(diagramModel) {
+        const model = transform(diagramModel);
+        const iframe = document.getElementById('preview');
+        iframe.contentWindow.qa.start(model, 'qa-module');
     }
 
     render() {

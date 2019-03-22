@@ -1,51 +1,50 @@
-const findPortLabel = function(sourceId, portId) {
-    const sourceNode = model.nodes.find((node) => {
-        return (node.id == sourceId);
-    });
-
-    const portNode = sourceNode.ports.find((port) => {
-        return (port.id == portId);
-    });
-
-    return portNode.label;
-};
-
 export const transform = function(model) {
-    const rootId = model.nodes[0].id;
-    model.root = rootId;
+    const m = {
+        root: null,
+        nodes: [],
+        connectors: []
+    };
 
+    m.root = model.nodes[0].id;
 
-    model.nodes.forEach((node) => {
+    m.nodes = model.nodes.map((node) => {
+
         if (node.type === 'input') {
-            node.template = 'QA_TILES';
-            node.question = node.name;
+            const qa = {
+                id: node.id,
+                type: 'question',
+                template: 'QA_TILES',
+                question: node.name,
+                options: []
+            };
 
-            // answers
-            node.options =[];
             node.ports.forEach((port)=> {
                 if (!port.in) {
-                    node.options.push({
-                        id: port.id,
-                        text: port.label
-                    })
+                    qa.options.push({id: port.id, text: port.label});
                 }
             });
+
+            return qa;
         }
 
         if (node.type === 'endpoint') {
-            node.template = 'EP_CONTENT';
-            node.content = {
-                title: node.name,
-                body: 'This property is not available in the editor.',
-                link: {
-                    url: 'http://www.vi.nl',
-                    text: 'The link property is not available in the editor.'
+            return {
+                id: node.id,
+                type: 'endpoint',
+                template: 'EP_CONTENT',
+                content: {
+                    title: node.name,
+                    body: '',
+                    link: {
+                        url: '#',
+                        text: 'not available'
+                    }
                 }
-            }
+            };
         }
     });
 
-    model.connectors = model.links.map((link) => {
+    m.connectors = model.links.map((link) => {
         return {
             id: link.id,
             type: 'connector',
@@ -59,7 +58,5 @@ export const transform = function(model) {
         };
     });
 
-    console.log(JSON.stringify(model));
-
-    return model;
+    return m;
 };

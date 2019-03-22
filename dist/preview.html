@@ -1,0 +1,68 @@
+<html lang="nl">
+
+<head>
+    <title>QA Runtime test page - Rabobank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <link rel="stylesheet" href="./qa-renderer.min.css"/>
+
+    <link rel="stylesheet" href="https://www.rabobank.nl/static/appls/rfs-layout-versions/1.5.5/css/rfs-layout.css" />
+    <link rel="stylesheet" href="https://www.rabobank.nl/static/appls/rfs-icons-versions/2.45.22/css/rfs-icons.css" />
+    <link rel="stylesheet" href="https://www.rabobank.nl/static/appls/rfs-icons-versions/2.45.22/css/rfs-icons-algemeen.css" />
+    <link rel="stylesheet" href="https://www.rabobank.nl/static/appls/rfs-styleguide-versions/0.30.36/css/rfs-styleguide.css" />
+    <link rel="stylesheet" href="https://www.rabobank.nl/static/appls/rfs-components-versions/0.45.2/css/all.css" />
+    <link rel="stylesheet" href="https://www.rabobank.nl/static/appls/responsive-template-versions/1.0.111/rfs-responsive-template.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <script type="module">
+        import config from '/config-v2.js';
+
+        window.qaData= config;
+    </script>
+    <script src="/qa-renderer.min.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            window.qa.start(window.qaData, 'qa-module');
+        });
+    </script>
+</head>
+
+<body>
+
+<h1 class="rfs-heading-5">QA Runtime - Test page</h1>
+
+<!-- The first two. divs (rfs-container-fluid & .rfs-row) are temporarily and simulates a Rabobank page -->
+<div class="rfs-container-fluid">
+    <div class="rfs-row tpa-row">
+
+        <!-- index.html -->
+        <section id="qa-module" class="qa-module">
+            Content will be replaced by runtime..
+        </section>
+        <!-- end index.html -->
+
+        <div class="qa-margin-top tnl-notification tnl-notification-warning" role="alert">
+            <a>
+                <div class="tnl-notification__header">
+                    <span class="tnl-notification__icon" aria-hidden="true"></span>
+
+                    <span class="tnl-notification--text">
+                            Once an answer to a question has no follow up question an endpoint is reached. An endpoint
+                            is always a piece of content in the form of an article or a link to another page. Once an
+                            answer
+                            to a question has no follow up question an endpoint is reached. An endpoint is always a
+                            piece
+                            of content in the form of an article or a link to another page.
+                        </span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,14 +1,11 @@
 import React from 'react';
-import { TwitterPicker } from 'react-color';
-import { InputNodeModel } from './nodes/input/InputNodeModel';
+import { InputNodeModel } from '../nodes/input/InputNodeModel';
+import ColorPicker from './ColorPicker';
+import EditableInput from './EditableInput';
 
-class PropsPanel extends React.Component {
+class PropsEditor extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            displayColorPicker: false,
-        };
     }
 
     updateChanges(nextNode) {
@@ -72,15 +69,6 @@ class PropsPanel extends React.Component {
         this.props.updateModel(this.props.model, nodeInModel);
     }
 
-    selectionHandler(el) {
-        var range = document.createRange();
-        range.selectNodeContents(el.target);
-
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-    }
-
     onAddPort() {
         const im = new InputNodeModel('input');
         im.deSerialize(this.props.selectedNode);
@@ -108,20 +96,29 @@ class PropsPanel extends React.Component {
         });
     }
 
+    renderInputLabel(key) {
+        if (key === 'color') {
+            return (
+                <label>
+                    <span>{ key }</span>
+                    <ColorPicker onChange={this.handleColorClick.bind(this, key)}/>
+                </label>
+            );
+        }
+
+        return (<label>{ key }</label>);
+    }
+
     renderInputs(selectedNode) {
         return this.getSimpleProps(selectedNode).map((key) => {
             return (
                 <div key={key} className="input-row">
-                    <label>
-                        {key}
-                        { (key === 'color') ? this.renderColorPicker(key): null }
-                    </label>
-                    <div data-key={key}
-                        contentEditable="true"
-                        onFocus={this.selectionHandler.bind(this)}
+                    { this.renderInputLabel(key) }
+                    <EditableInput
+                        value={selectedNode[key]}
+                        name={key}
                         onBlur={this.onFocusInputOut.bind(this)}
-                        suppressContentEditableWarning={true}>
-                        {selectedNode[key]}</div>
+                    />
                 </div>
             );
         });
@@ -134,57 +131,23 @@ class PropsPanel extends React.Component {
             return (
                 <div key={key} className="input-row">
                     <label>{ ports[key].name }</label>
-                    <div data-key={ports[key].id}
-                         contentEditable="true"
-                         onBlur={this.onFocusPortOut.bind(this)}
-                         suppressContentEditableWarning={true}>
-                        {ports[key].label}</div>
+                    <EditableInput
+                        value={ports[key].label}
+                        name={ports[key].id}
+                        onBlur={this.onFocusPortOut.bind(this)}
+                    />
                 </div>
             )
         });
     }
 
-    handleClick() {
-        this.setState({ displayColorPicker: !this.state.displayColorPicker })
-    }
-
-    handleClose() {
-        this.setState({ displayColorPicker: false })
-    }
-
-    handleColorClick(key, e) {
+    handleColorClick(key, color) {
         this.onFocusInputOut({
             target: {
-                innerText: `rgb(${e.rgb.r}, ${e.rgb.g}, ${e.rgb.b})`,
-                getAttribute: () => {
-                    return key;
-                }
+                innerText: `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`,
+                getAttribute: () => key
             }
         });
-    }
-
-    renderColorPicker(key) {
-        const popover = {
-            position: 'absolute',
-            zIndex: '2',
-        }
-        const cover = {
-            position: 'fixed',
-            top: '0px',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-        }
-
-        return (
-            <span className="color-picker">
-                <button onClick={ this.handleClick.bind(this) }>...</button>
-                { this.state.displayColorPicker ? <div style={ popover }>
-                    <div style={ cover } onClick={ this.handleClose.bind(this) }/>
-                    <TwitterPicker onChange={ this.handleColorClick.bind(this, key) }/>
-                </div> : null }
-            </span>
-        )
     }
 
     render() {
@@ -215,4 +178,4 @@ class PropsPanel extends React.Component {
     }
 }
 
-export default PropsPanel;
+export default PropsEditor;

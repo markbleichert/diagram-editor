@@ -4,7 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
 import Diagram from './diagram';
-import PropsPanel from './propspanel';
+import PropsEditor from './props-panel/PropsEditor';
 import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
 import ActionBar from './actionbar';
@@ -73,7 +73,7 @@ class App extends React.Component {
                     updateModel={this.onUpdateModel.bind(this)}/>
 
                 <div className="right-panel">
-                    <PropsPanel
+                    <PropsEditor
                         model={this.state.model}
                         selectedNode={this.state.selectedNode}
                         updateModel={this.onUpdateModel.bind(this)} />

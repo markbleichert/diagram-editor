@@ -23,10 +23,12 @@ html, body, .app-container {
 .actionbar {
 	flex: 1 1 100%;
 	height: 5vh;
+	background: #3c3c3c;
 
 	button {
 		padding: 8px;
 		margin: 4px;
+		border-radius: 5px;
 	}
 
 	select {
@@ -35,7 +37,7 @@ html, body, .app-container {
 }
 
 .diagram-panel {
-	flex: 2.2;
+	flex: 2;
 	display: flex;
 	flex-direction: column;
 	height: 95vh;
@@ -46,8 +48,8 @@ html, body, .app-container {
 	flex: 1.2;
 	display: flex;
 	flex-direction: row;
-	background-color: #fff;
 }
+
 .preview-panel {
 	flex: 0.8;
 	display: flex;
@@ -69,7 +71,7 @@ html, body, .app-container {
 }
 
 .props-panel {
-	flex: 0.8;
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	height: 95vh;

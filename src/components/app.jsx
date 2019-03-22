@@ -60,11 +60,11 @@ class App extends React.Component {
     }
 
     updatePreview(diagramModel) {
-        if (diagramModel.nodes.length === 0) return;
-
-        const model = transform(diagramModel);
-        const iframe = document.getElementById('preview');
-        iframe.contentWindow.qa.start(model, 'qa-module');
+        if (diagramModel.nodes.length > 0) {
+            const model = transform(diagramModel);
+            const iframe = document.getElementById('preview');
+            iframe.contentWindow.qa.start(model, 'qa-module');
+        }
     }
 
     render() {

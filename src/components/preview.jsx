@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { transform } from './transformer';
 
 class Preview extends React.Component {
@@ -15,7 +16,9 @@ class Preview extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updatePreview(nextProps.model);
+        if(!_.isEqual(this.props.model, nextProps.model)) {
+            this.updatePreview(nextProps.model);
+        }
     }
 
     updatePreview(diagramModel) {

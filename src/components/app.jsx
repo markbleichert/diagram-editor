@@ -5,7 +5,6 @@ import { DragDropContext } from 'react-dnd'
 
 import Diagram from './diagram';
 import PropsEditor from './props-panel/PropsEditor';
-import ConsolePanel from './consolepanel';
 import NodesPanel from './nodespanel';
 import ActionBar from './actionbar';
 import Storage from './storage';

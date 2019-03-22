@@ -25,6 +25,10 @@ class App extends React.Component {
         }
     }
 
+    componentWillUpdate(nextProps, nextState) {
+        this.updatePreview(nextState.model);
+    }
+
     onModelCreated() {
         const diagramModel = new RJD.DiagramModel();
 
@@ -53,6 +57,14 @@ class App extends React.Component {
         }, () => Storage.saveToStorage(model));
     }
 
+    updatePreview(model) {
+        // preview tool will come here soon..
+        const content = `<pre>${JSON.stringify(model, null, 2)}</pre>`;
+        const iframe = document.getElementById('preview');
+        iframe.contentWindow.document.body.innerHTML = content;
+
+    }
+
     render() {
         return (
             <div className="app-container">
@@ -67,17 +79,20 @@ class App extends React.Component {
                 <div className="left-panel">
                     <NodesPanel />
                 </div>
-                <Diagram
-                    selectedNode={this.state.selectedNode}
-                    model={this.state.model}
-                    updateModel={this.onUpdateModel.bind(this)}/>
-
+                <div className="diagram-panel">
+                    <Diagram
+                        selectedNode={this.state.selectedNode}
+                        model={this.state.model}
+                        updateModel={this.onUpdateModel.bind(this)}/>
+                    <div className="preview-panel">
+                        <iframe id="preview" src="./preview.html" width="100%" height="100%" frameBorder="0"/>
+                    </div>
+                </div>
                 <div className="right-panel">
                     <PropsEditor
                         model={this.state.model}
                         selectedNode={this.state.selectedNode}
                         updateModel={this.onUpdateModel.bind(this)} />
-                    <ConsolePanel model={this.state.model} />
                 </div>
             </div>
         )

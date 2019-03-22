@@ -18,7 +18,7 @@ export class EndpointNodeModel extends RJD.NodeModel {
   serialize() {
     return _.merge(super.serialize(), {
       name: this.name,
-      color: this.color,
+      color: this.color
     });
   }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import * as RJD from 'react-js-diagrams';
-import { InputWidgetFactory } from './nodes/input/InputWidgetFactory';
-import { InputNodeFactory } from './nodes/input/InputInstanceFactories';
-import { EndpointWidgetFactory } from './nodes/endpoint/EndpointWidgetFactory';
-import { EndpointNodeFactory } from './nodes/endpoint/EndpointInstanceFactories';
+import { InputWidgetFactory } from '../nodes/input/InputWidgetFactory';
+import { InputNodeFactory } from '../nodes/input/InputInstanceFactories';
+import { EndpointWidgetFactory } from '../nodes/endpoint/EndpointWidgetFactory';
+import { EndpointNodeFactory } from '../nodes/endpoint/EndpointInstanceFactories';
 
 // Setup the diagram engine
 export const engine = new RJD.DiagramEngine();

@@ -3,12 +3,12 @@ import * as RJD from 'react-js-diagrams';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 
-import Diagram from './diagram';
+import ActionBar from './actions-panel/ActionBar';
+import Diagram from './diagram-panel/Diagram';
 import PropsEditor from './props-panel/PropsEditor';
-import NodesPanel from './nodespanel';
-import ActionBar from './actionbar';
+import NodesPanel from './nodes-panel/NodesPanel';
+import Preview from './preview-panel/Preview';
 import Storage from './storage';
-import Preview from './preview';
 
 import '../style/test.scss';
 

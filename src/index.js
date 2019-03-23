@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
+import App from './components/App';
 
 ReactDOM.render(
   <App />,
@@ -8,7 +8,7 @@ ReactDOM.render(
 );
 
 // fix: make sure child components do not get unmounted by hot loader
-module.hot.accept('./components/app.jsx', () => {
-    const NextApp = require('./components/app.jsx').default;
+module.hot.accept('./components/App.jsx', () => {
+    const NextApp = require('./components/App.jsx').default;
     render(<NextApp />);
 });

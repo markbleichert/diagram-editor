@@ -2,9 +2,11 @@ import React from 'react';
 import { DropTarget } from 'react-dnd';
 import * as RJD from 'react-js-diagrams';
 import _ from 'lodash';
+
 import { engine } from './engine';
-import { InputNodeModel } from './nodes/input/InputNodeModel';
-import { EndpointNodeModel } from './nodes/endpoint/EndpointNodeModel';
+import { InputNodeModel } from '../nodes/input/InputNodeModel';
+import { EndpointNodeModel } from '../nodes/endpoint/EndpointNodeModel';
+
 
 // Setup the diagram model
 let diagramModel = new RJD.DiagramModel();

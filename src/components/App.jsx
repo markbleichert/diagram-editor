@@ -73,7 +73,7 @@ class App extends React.Component {
                         model={this.state.model}
                         updateModel={this.onUpdateModel.bind(this)}/>
                     <div className="preview-panel">
-                        <Preview model={this.state.model} />
+                        <Preview model={this.state.model} selectedNode={this.state.selectedNode}/>
                     </div>
                 </div>
                 <div className="right-panel">

@@ -1,11 +1,17 @@
-export const transform = function(model) {
+export const transform = function(model, selectedNode = null) {
     const m = {
         root: null,
         nodes: [],
         connectors: []
     };
 
-    m.root = model.nodes[0].id;
+    let rootId = model.nodes[0].id;
+
+    if (selectedNode) {
+        rootId = selectedNode.id;
+    }
+
+    m.root = rootId;
 
     m.nodes = model.nodes.map((node) => {
         if (node.type === 'input') {

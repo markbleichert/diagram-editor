@@ -10,20 +10,20 @@ class Preview extends React.Component {
     componentDidMount() {
         window.addEventListener('message', (event) => {
             if (event.data.type === 'iframeLoaded') {
-                this.updatePreview(this.props.model);
+                this.updatePreview(this.props.model, this.props.selectedNode);
             }
         });
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updatePreview(nextProps.model);
+        this.updatePreview(nextProps.model, nextProps.selectedNode);
     }
 
-    updatePreview(diagramModel) {
+    updatePreview(diagramModel, selectedNode) {
         const iframe = document.getElementById('preview');
 
         if (diagramModel.nodes.length > 0) {
-            const model = transform(diagramModel);
+            const model = transform(diagramModel, selectedNode);
             iframe.contentWindow.qa.start(model, 'qa-module');
         } else {
             const container = iframe.contentDocument.getElementById('qa-placeholder');

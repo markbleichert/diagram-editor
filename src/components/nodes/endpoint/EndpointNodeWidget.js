@@ -1,5 +1,5 @@
 import React from 'react';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../../lib/main';
 import { EndpointNodeModel } from './EndpointNodeModel';
 
 export class EndpointNodeWidget extends React.Component {

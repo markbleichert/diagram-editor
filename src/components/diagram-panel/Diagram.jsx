@@ -1,6 +1,6 @@
 import React from 'react';
 import { DropTarget } from 'react-dnd';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../lib/main';
 import _ from 'lodash';
 
 import { engine } from './engine';

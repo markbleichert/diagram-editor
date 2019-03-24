@@ -1,5 +1,5 @@
 import React from 'react';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../lib/main';
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
 

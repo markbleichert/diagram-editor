@@ -4,7 +4,7 @@ import Node from './Node';
 class NodesPanel extends React.Component {
     render() {
         return (
-            <div className='nodes-panel'>
+            <div className="nodes-panel">
                 <div className='node-wrapper'>
                     <Node type='question' color='rgb(224, 28, 120)'/>
                 </div>

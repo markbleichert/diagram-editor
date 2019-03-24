@@ -1,4 +1,4 @@
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../../lib/main';
 import { InputNodeWidgetFactory } from './InputNodeWidget';
 
 export class InputWidgetFactory extends RJD.NodeWidgetFactory{

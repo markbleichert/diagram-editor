@@ -8,8 +8,8 @@ export const transform = function(model) {
     m.root = model.nodes[0].id;
 
     m.nodes = model.nodes.map((node) => {
-
         if (node.type === 'input') {
+
             const qa = {
                 id: node.id,
                 type: 'question',
@@ -17,6 +17,15 @@ export const transform = function(model) {
                 question: node.name,
                 options: []
             };
+
+            // add image only when present
+            if (node.image && node.image.length > 0) {
+                qa.content = {
+                    image: {
+                        src: node.image
+                    }
+                }
+            }
 
             node.ports.forEach((port)=> {
                 if (!port.in) {
@@ -57,6 +66,8 @@ export const transform = function(model) {
             }
         };
     });
+
+    console.log('#', m);
 
     return m;
 };

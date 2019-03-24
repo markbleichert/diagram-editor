@@ -1,5 +1,5 @@
 import React from 'react';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../../lib/main';
 import { InputNodeModel } from './InputNodeModel';
 
 export class InputNodeWidget extends React.Component {

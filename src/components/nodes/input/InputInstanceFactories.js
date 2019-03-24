@@ -1,4 +1,4 @@
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../../lib/main';
 import { InputNodeModel } from './InputNodeModel';
 
 export class InputNodeFactory extends RJD.AbstractInstanceFactory {

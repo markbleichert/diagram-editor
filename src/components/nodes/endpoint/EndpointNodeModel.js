@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../../lib/main';
 
 export class EndpointNodeModel extends RJD.NodeModel {
   constructor(name = 'Untitled', color = 'rgb(0, 192, 255)') {

@@ -33,7 +33,8 @@ class PropsEditor extends React.Component {
                 }
             }
         });
-
+        // todo: this always returns a model whether its updated or not
+        // this makes the change check useless.
         return this.props.model;
     }
 
@@ -74,7 +75,10 @@ class PropsEditor extends React.Component {
         im.deSerialize(this.props.selectedNode);
 
         const id = this.props.selectedNode.ports.length + 1;
-        im.addPortOut(`out${id}`, 'label text');
+        im.addPortOut(`out${id}`, 'label text', {
+            src: 'https://horseconnect.nl/wp-content/uploads/2016/10/2856591987_a1beb8eb32.jpg',
+            alt: 'no-alt'
+        });
 
         const node = im.serialize();
 

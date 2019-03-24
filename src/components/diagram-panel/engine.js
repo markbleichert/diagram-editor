@@ -1,5 +1,5 @@
 import React from 'react';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from '../../../lib/main';
 import { InputWidgetFactory } from '../nodes/input/InputWidgetFactory';
 import { InputNodeFactory } from '../nodes/input/InputInstanceFactories';
 import { EndpointWidgetFactory } from '../nodes/endpoint/EndpointWidgetFactory';

@@ -19,7 +19,7 @@ export const transform = function(model) {
             };
 
             // add image only when present
-            if (node.image && node.image.length > 0) {
+            if (node.image && node.image.length > 1) {
                 qa.content = {
                     image: {
                         src: node.image

@@ -55,8 +55,8 @@
 	display: flex;
 	flex-direction: row;
 	background-color: #eee;
-	border-top: 1px solid #ccc;
 	transition:all 500ms ease;
+	margin-top: 20px;
 
 	&.expanded {
 		flex: 100%;
@@ -78,7 +78,6 @@
 		margin: 0 1px 0 0;
 		border-width: 1px;
 		border-radius: 2px;
-		background: #fff;
 
 		span {
 			pointer-events: none;
@@ -98,21 +97,36 @@
 
 	button:focus {
 		background: #eee;
-		border: 1px solid #eee;
+		border: 1px solid #ccc;
 		outline: none;
 	}
 }
 
 .left-panel {
-	flex: 0.5;
+	flex: 0.4;
 	background-color: #fff;
 	border-right: 1px solid #ccc;
 	height: 95vh;
+	margin-right: 20px;
+
+	.panel-wrapper {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+		align-items: right;
+
+		button {
+			margin: 0;
+			padding: 0;
+			width: 10px;
+		}
+	}
 }
 
 .right-panel {
 	flex: 0.8;
 	flex-direction: column;
+	margin-left: 20px;
 }
 
 .props-panel {

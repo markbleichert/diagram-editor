@@ -42,7 +42,8 @@ class App extends React.Component {
         const model = Storage.getFromStorage(selectedId);
         this.setState({
             model: model,
-            selectedId: selectedId
+            selectedId: selectedId,
+            selectedNode: model.nodes[0]
         });
     }
 

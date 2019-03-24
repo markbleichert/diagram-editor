@@ -1,4 +1,4 @@
-export const transform = function(model, selectedNode = null) {
+export const transform = function(model, selectedNode) {
     const m = {
         root: null,
         nodes: [],

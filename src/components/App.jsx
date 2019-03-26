@@ -82,6 +82,7 @@ class App extends React.Component {
                         model={this.state.model}
                         selectedNode={this.state.selectedNode}
                         updateModel={this.onUpdateModel.bind(this)} />
+
                 </div>
             </div>
         )

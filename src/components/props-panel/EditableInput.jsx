@@ -16,7 +16,8 @@ class EditableInput extends React.Component {
 
     render() {
         return (
-            <div data-key={this.props.name}
+            <div data-id={this.props.id}
+                 data-name={this.props.name}
                  contentEditable="true"
                  onFocus={this.selectionHandler.bind(this)}
                  onBlur={this.props.onBlur}

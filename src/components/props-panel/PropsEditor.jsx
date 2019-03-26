@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { InputNodeModel } from '../nodes/input/InputNodeModel';
 import ColorPicker from './ColorPicker';
 import EditableInput from './EditableInput';
@@ -6,6 +7,21 @@ import EditableInput from './EditableInput';
 class PropsEditor extends React.Component {
     constructor(props) {
         super(props);
+
+        this.onKeyDown = this.onKeyDown.bind(this);
+    }
+
+    componentDidMount() {
+        this.element = ReactDOM.findDOMNode(this);
+        this.element.addEventListener('keydown', this.onKeyDown, false);
+    }
+
+    componentWillUnmount() {
+        this.element.removeEventListener('keydown', this.onKeyDown, false);
+    }
+
+    onKeyDown(e) {
+        e.stopPropagation();
     }
 
     updateChanges(nextNode) {
@@ -39,11 +55,11 @@ class PropsEditor extends React.Component {
     }
 
     onFocusInputOut(e) {
-        const key = e.target.getAttribute('data-key');
+        const name = e.target.getAttribute('data-name');
 
         // create change object and update key value
         const changeObject = Object.assign({}, this.props.selectedNode);
-        changeObject[key] = e.target.innerText;
+        changeObject[name] = e.target.innerText;
 
         // update changes with model node
         const updateModel = this.updateChanges(changeObject);
@@ -53,7 +69,8 @@ class PropsEditor extends React.Component {
     }
 
     onFocusPortOut(e) {
-        const key = e.target.getAttribute('data-key');
+        const id = e.target.getAttribute('data-id');
+        const name = e.target.getAttribute('data-name');
         const value = e.target.innerText;
 
         const nodeInModel = this.props.model.nodes.find((node) => {
@@ -61,11 +78,18 @@ class PropsEditor extends React.Component {
         });
 
         const portInModel = nodeInModel.ports.find((port) => {
-            return port.id === key;
+            return port.id === id;
         });
 
-        // update port label in model
-        portInModel.label = value;
+        if (name === 'image') {
+            if (portInModel.image) {
+                portInModel.image.src = value;
+            } else {
+                console.warn('property image not found..');
+            }
+        } else {
+            portInModel[name] = value;
+        }
 
         this.props.updateModel(this.props.model, nodeInModel);
     }
@@ -76,7 +100,7 @@ class PropsEditor extends React.Component {
 
         const id = this.props.selectedNode.ports.length + 1;
         im.addPortOut(`out${id}`, 'label text', {
-            src: 'https://horseconnect.nl/wp-content/uploads/2016/10/2856591987_a1beb8eb32.jpg',
+            src: './images/pas1.jpeg',
             alt: 'no-alt'
         });
 
@@ -114,42 +138,98 @@ class PropsEditor extends React.Component {
     }
 
     renderInputs(selectedNode) {
-        return this.getSimpleProps(selectedNode).map((key) => {
+        const rows = this.getSimpleProps(selectedNode).map((key) => {
             return (
-                <div key={key} className="input-row">
-                    { this.renderInputLabel(key) }
-                    <EditableInput
-                        value={selectedNode[key]}
-                        name={key}
-                        onBlur={this.onFocusInputOut.bind(this)}
-                    />
-                </div>
+                <tr key={key}>
+                    <th>{ this.renderInputLabel(key) }</th>
+                    <td>
+                        <EditableInput
+                            id={selectedNode.id}
+                            value={selectedNode[key]}
+                            name={key}
+                            onBlur={this.onFocusInputOut.bind(this)}
+                        />
+                    </td>
+                </tr>
             );
         });
+
+        if (rows.length > 0) {
+            return (
+                <table>
+                    <tbody>
+                        { rows }
+                    </tbody>
+                </table>
+            );
+        }
+        return null;
     }
 
+    createPortTable(port) {
+        if (port) {
+            return (
+                <table key={port.id} className="ports">
+                    <tbody>
+                        <tr>
+                            <th>label</th>
+                            <td>
+                                <EditableInput
+                                    id={port.id}
+                                    name="label"
+                                    value={port.label}
+                                    onBlur={this.onFocusPortOut.bind(this)}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>image</th>
+                            <td>
+                                <EditableInput
+                                    id={port.id}
+                                    name="image"
+                                    value={port.image ? port.image.src : null}
+                                    onBlur={this.onFocusPortOut.bind(this)}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            );
+        }
+        return null;
+    }
     renderPorts(selectedNode) {
         const ports = selectedNode.ports;
 
-        return Object.keys(ports).map((key) => {
+        const tables = Object.keys(ports)
+            .filter((key) => !ports[key].in)
+            .map((prop) => this.createPortTable(ports[prop]));
+
+        if (tables.length > 0) {
             return (
-                <div key={key} className="input-row">
-                    <label>{ ports[key].name }</label>
-                    <EditableInput
-                        value={ports[key].label}
-                        name={ports[key].id}
-                        onBlur={this.onFocusPortOut.bind(this)}
-                    />
-                </div>
-            )
-        });
+                    <div>
+                        <label>Ports</label>
+                        <button
+                            onClick={this.onAddPort.bind(this)}
+                            className="add-port-button">+</button>
+                        { tables }
+                    </div>
+            );
+        }
+
+        return null;
     }
 
     handleColorClick(key, color) {
         this.onFocusInputOut({
             target: {
                 innerText: `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`,
-                getAttribute: () => key
+                getAttribute: (key) => {
+                    if (key === 'data-name') {
+                        return 'color';
+                    }
+                }
             }
         });
     }
@@ -170,18 +250,8 @@ class PropsEditor extends React.Component {
         return (
             <div className="props-panel">
                 <div className="container">
-                    <div className="props-section">
-                        { this.renderInputs(selectedNode) }
-                    </div>
-                    <div className="ports-section">
-                        <div>
-                            <label>Ports:</label>
-                            <button
-                                onClick={this.onAddPort.bind(this)}
-                                className="add-port-button">+</button>
-                        </div>
-                        {this.renderPorts(selectedNode) }
-                    </div>
+                    { this.renderInputs(selectedNode) }
+                    { this.renderPorts(selectedNode) }
                 </div>
             </div>
         )

@@ -1,20 +1,24 @@
 import _ from 'lodash';
 import * as RJD from '../../../../lib/main';
+import { ImagePortModel } from '../custom/ImagePortModel'
 
 export class InputNodeModel extends RJD.NodeModel {
   constructor(name = 'Untitled', color = 'rgb(192, 255, 0)', image = '') {
     super('input');
     this.addPort(new RJD.DefaultPortModel(true, 'input', 'In'));
-    this.addPort(new RJD.DefaultPortModel(false, 'out1', 'Out 1'));
-    this.addPort(new RJD.DefaultPortModel(false, 'out2', 'Out 2'));
+    this.addPort(new ImagePortModel(false, 'out1', 'Out 1', {}));
+    this.addPort(new ImagePortModel(false, 'out2', 'Out 2', {}));
 
     this.name = name;
     this.color = color;
     this.image = image;
   }
 
-  addPortOut(id, label) {
-      this.addPort(new RJD.DefaultPortModel(false, id, label));
+  addPortOut(id, label, image) {
+      this.addPort(new ImagePortModel(false, id, label, {
+        src: './images/pas1.jpeg',
+        alt: 'untitled'
+      }));
   }
 
   deSerialize(object) {

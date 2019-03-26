@@ -35,7 +35,30 @@ export const transform = function(model, selectedNode) {
 
             node.ports.forEach((port)=> {
                 if (!port.in) {
-                    qa.options.push({id: port.id, text: port.label});
+                    let image = null;
+
+                    if (port.image) {
+                        image = {};
+                        if (port.image.src) {
+                            image.src = port.image.src;
+                        }
+                        if (port.image.alt) {
+                            image.alt = port.image.alt;
+                        }
+
+                    }
+
+                    // required
+                    const option = {
+                        id: port.id,
+                        text: port.label
+                    };
+                    // optional
+                    if (image && image.src) {
+                        option.image = image;
+                    }
+
+                    qa.options.push(option);
                 }
             });
 
@@ -72,8 +95,6 @@ export const transform = function(model, selectedNode) {
             }
         };
     });
-
-    console.log('#', m);
 
     return m;
 };

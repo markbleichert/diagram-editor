@@ -4,6 +4,7 @@ import { InputWidgetFactory } from '../nodes/input/InputWidgetFactory';
 import { InputNodeFactory } from '../nodes/input/InputInstanceFactories';
 import { EndpointWidgetFactory } from '../nodes/endpoint/EndpointWidgetFactory';
 import { EndpointNodeFactory } from '../nodes/endpoint/EndpointInstanceFactories';
+import { ImagePortFactory } from '../nodes/custom/ImagePortInstanceFactory';
 
 // Setup the diagram engine
 export const engine = new RJD.DiagramEngine();
@@ -19,3 +20,4 @@ engine.registerInstanceFactory(new RJD.DefaultPortInstanceFactory());
 engine.registerInstanceFactory(new RJD.LinkInstanceFactory());
 engine.registerInstanceFactory(new InputNodeFactory());
 engine.registerInstanceFactory(new EndpointNodeFactory());
+engine.registerInstanceFactory(new ImagePortFactory());

@@ -26,8 +26,9 @@ class Preview extends React.Component {
             const model = transform(diagramModel, selectedNode);
             iframe.contentWindow.qa.start(model, 'qa-module');
         } else {
-            const container = iframe.contentDocument.getElementById('qa-placeholder');
-            container.innerHTML = 'New diagram: nothing to display..';
+            const container = iframe.contentDocument.getElementById('qa-module');
+            container.innerHTML = 'Empty diagram: nothing to display..';
+
         }
     }
 

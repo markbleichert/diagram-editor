@@ -16,7 +16,12 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        const models = Storage.getAllFromStorage();
+        let models = Storage.getAllFromStorage();
+
+        // needed when nothing in storage
+        if (models.length === 0) {
+           models.push(new RJD.DiagramModel())
+        }
 
         this.state = {
             savedModels: models,

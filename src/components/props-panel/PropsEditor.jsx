@@ -4,6 +4,7 @@ import { InputNodeModel } from '../nodes/input/InputNodeModel';
 import ColorPicker from './ColorPicker';
 import EditableInput from './EditableInput';
 import Port from './Port'
+import Model from './Model'
 
 class PropsEditor extends React.Component {
     constructor(props) {
@@ -25,48 +26,15 @@ class PropsEditor extends React.Component {
         e.stopPropagation();
     }
 
-    updateChanges(nextNode) {
-        const { nodes } = this.props.model;
-
-        const updatableNode = nodes.find((node) => {
-            return node.id === nextNode.id;
-        });
-
-        const updatableKeys = Object.keys(nextNode).filter((key) => {
-            return (typeof nextNode[key] === 'string' || typeof nextNode[key] === 'number');
-        });
-
-        Object.keys(updatableNode).forEach((key) => {
-            if(updatableKeys.indexOf(key) > -1) {
-                // update only when changed
-                if (updatableNode[key] != nextNode[key]) {
-                    if (typeof updatableNode[key] === 'number') {
-                        updatableNode[key] = Number(nextNode[key]);
-                    } else {
-                        updatableNode[key] = nextNode[key];
-                    }
-
-                    console.log(`key ${key} update..`);
-                }
-            }
-        });
-        // todo: this always returns a model whether its updated or not
-        // this makes the change check useless.
-        return this.props.model;
-    }
-
     onFocusInputOut(e) {
         const name = e.target.getAttribute('data-name');
 
-        // create change object and update key value
-        const changeObject = Object.assign({}, this.props.selectedNode);
-        changeObject[name] = e.target.innerText;
+        const model = new Model(this.props.model);
+        const node = model.getNodeById(this.props.selectedNode.id);
 
-        // update changes with model node
-        const updateModel = this.updateChanges(changeObject);
+        node.setProperty(name, e.target.innerText);
 
-        // model is updated - update diagram !
-        this.props.updateModel(updateModel, changeObject);
+        this.props.updateModel(model.serialize(), node.serialize());
     }
 
     onFocusPortOut(e) {
@@ -74,25 +42,14 @@ class PropsEditor extends React.Component {
         const name = e.target.getAttribute('data-name');
         const value = e.target.innerText;
 
-        const nodeInModel = this.props.model.nodes.find((node) => {
-            return (node.id === this.props.selectedNode.id);
-        });
 
-        const portInModel = nodeInModel.ports.find((port) => {
-            return port.id === id;
-        });
+        const model = new Model(this.props.model);
+        const node = model.getNodeById(this.props.selectedNode.id);
+        const port = node.getPortById(id);
 
-        if (name === 'image') {
-            if (portInModel.image) {
-                portInModel.image.src = value;
-            } else {
-                console.warn('property image not found..');
-            }
-        } else {
-            portInModel[name] = value;
-        }
+        port.setProperty(name, value);
 
-        this.props.updateModel(this.props.model, nodeInModel);
+        this.props.updateModel(this.props.model, this.props.selectedNode);
     }
 
     onAddPort() {
@@ -105,17 +62,14 @@ class PropsEditor extends React.Component {
             alt: 'no-alt'
         });
 
-        const node = im.serialize();
+        const newNode = im.serialize();
+        const lastPort = newNode.ports.pop();
 
-        const lastPort = node.ports.pop();
+        const model = new Model(this.props.model);
+        const node = model.getNodeById(this.props.selectedNode.id);
+        node.addPort(lastPort);
 
-        const nodeInModel = this.props.model.nodes.find((node) => {
-            return (node.id === this.props.selectedNode.id);
-        });
-
-        nodeInModel.ports.push(lastPort);
-
-        this.props.updateModel(this.props.model, nodeInModel);
+        this.props.updateModel(model.serialize(), node.serialize());
     }
 
     getSimpleProps(selectedNode) {
@@ -137,8 +91,46 @@ class PropsEditor extends React.Component {
 
         return (<label>{ key }</label>);
     }
+    renderImageInputs(selectedNode) {
+        const image = selectedNode.image;
 
-    renderInputs(selectedNode) {
+        if (image) {
+            return (
+                <table>
+                    <tbody>
+                    <tr>
+                        <th>
+                            <label>src</label>
+                        </th>
+                        <td>
+                            <EditableInput
+                                id={selectedNode.id}
+                                value={image.src}
+                                name="src"
+                                onBlur={this.onFocusInputOut.bind(this)}
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>alt</label>
+                        </th>
+                        <td>
+                            <EditableInput
+                                id={selectedNode.id}
+                                value={image.alt}
+                                name="alt"
+                                onBlur={this.onFocusInputOut.bind(this)}
+                            />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            );
+        }
+        return null;
+    }
+    renderSimpleInputs(selectedNode) {
         const rows = this.getSimpleProps(selectedNode).map((key) => {
             return (
                 <tr key={key}>
@@ -187,9 +179,8 @@ class PropsEditor extends React.Component {
             return (
                 <div>
                     <label>Ports</label>
-                    <button
-                        onClick={this.onAddPort.bind(this)}
-                        className="add-port-button">+</button>
+                    <button className="add-port-button"
+                            onClick={this.onAddPort.bind(this)}>+</button>
                     { tables }
                 </div>
             );
@@ -227,7 +218,8 @@ class PropsEditor extends React.Component {
         return (
             <div className="props-panel">
                 <div className="container">
-                    { this.renderInputs(selectedNode) }
+                    { this.renderSimpleInputs(selectedNode) }
+                    { this.renderImageInputs(selectedNode) }
                     { this.renderPorts(selectedNode) }
                 </div>
             </div>

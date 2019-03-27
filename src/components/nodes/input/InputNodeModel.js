@@ -3,7 +3,7 @@ import * as RJD from '../../../../lib/main';
 import { ImagePortModel } from '../custom/ImagePortModel'
 
 export class InputNodeModel extends RJD.NodeModel {
-  constructor(name = 'Untitled', color = 'rgb(192, 255, 0)', image = '') {
+  constructor(name = 'Untitled', color = 'rgb(192, 255, 0)', image = { src: '', alt: '' }) {
     super('input');
     this.addPort(new RJD.DefaultPortModel(true, 'input', 'In'));
     this.addPort(new ImagePortModel(false, 'out1', 'Out 1', {}));

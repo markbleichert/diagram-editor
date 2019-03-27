@@ -25,12 +25,27 @@ export const transform = function(model, selectedNode) {
             };
 
             // add image only when present
-            if (node.image && node.image.length > 1) {
+            if (node.image && node.image.src) {
                 qa.content = {
                     image: {
-                        src: node.image
+                        src: node.image.src,
+                        alt: node.image.alt
                     }
-                }
+                };
+
+                // // remove image object when empty
+                // if (qa.content.image) {
+                //
+                //     if (qa.content.image.src) {
+                //         if (qa.content.image.src.length < 2) {
+                //             delete qa.content.image;
+                //         }
+                //     }
+                //
+                // }
+
+            } else {
+                console.warn('no image to process..');
             }
 
             node.ports.forEach((port)=> {

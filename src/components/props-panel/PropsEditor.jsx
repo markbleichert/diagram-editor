@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { InputNodeModel } from '../nodes/input/InputNodeModel';
 import ColorPicker from './ColorPicker';
 import EditableInput from './EditableInput';
+import Port from './Port'
 
 class PropsEditor extends React.Component {
     constructor(props) {
@@ -166,55 +167,31 @@ class PropsEditor extends React.Component {
         return null;
     }
 
-    createPortTable(port) {
-        if (port) {
-            return (
-                <table key={port.id} className="ports">
-                    <tbody>
-                        <tr>
-                            <th>label</th>
-                            <td>
-                                <EditableInput
-                                    id={port.id}
-                                    name="label"
-                                    value={port.label}
-                                    onBlur={this.onFocusPortOut.bind(this)}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>image</th>
-                            <td>
-                                <EditableInput
-                                    id={port.id}
-                                    name="image"
-                                    value={port.image ? port.image.src : null}
-                                    onBlur={this.onFocusPortOut.bind(this)}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            );
-        }
-        return null;
+    renderPort(port) {
+        return (
+            <Port key={port.id}
+                id={port.id}
+                label={port.label}
+                image={port.image}
+                onBlur={this.onFocusPortOut.bind(this)} />
+        );
     }
     renderPorts(selectedNode) {
         const ports = selectedNode.ports;
 
         const tables = Object.keys(ports)
             .filter((key) => !ports[key].in)
-            .map((prop) => this.createPortTable(ports[prop]));
+            .map((prop) => this.renderPort(ports[prop]));
 
         if (tables.length > 0) {
             return (
-                    <div>
-                        <label>Ports</label>
-                        <button
-                            onClick={this.onAddPort.bind(this)}
-                            className="add-port-button">+</button>
-                        { tables }
-                    </div>
+                <div>
+                    <label>Ports</label>
+                    <button
+                        onClick={this.onAddPort.bind(this)}
+                        className="add-port-button">+</button>
+                    { tables }
+                </div>
             );
         }
 

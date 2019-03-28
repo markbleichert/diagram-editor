@@ -33,17 +33,6 @@ export const transform = function(model, selectedNode) {
                     }
                 };
 
-                // // remove image object when empty
-                // if (qa.content.image) {
-                //
-                //     if (qa.content.image.src) {
-                //         if (qa.content.image.src.length < 2) {
-                //             delete qa.content.image;
-                //         }
-                //     }
-                //
-                // }
-
             } else {
                 console.warn('no image to process..');
             }

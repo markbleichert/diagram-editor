@@ -52,21 +52,26 @@ class PropsEditor extends React.Component {
         this.props.updateModel(this.props.model, this.props.selectedNode);
     }
 
-    onAddPort() {
+    createPort() {
         const im = new InputNodeModel('input');
         im.deSerialize(this.props.selectedNode);
 
         const id = this.props.selectedNode.ports.length + 1;
         im.addPortOut(`out${id}`, 'label text', {
             src: './images/pas1.jpeg',
-            alt: 'no-alt'
+            alt: 'alt text'
         });
 
-        const newNode = im.serialize();
-        const lastPort = newNode.ports.pop();
+        const node = im.serialize();
 
+        return  node.ports.pop();
+
+    }
+    onAddPort() {
         const model = new Model(this.props.model);
         const node = model.getNodeById(this.props.selectedNode.id);
+
+        const port = this.createPort();
         node.addPort(lastPort);
 
         this.props.updateModel(model.serialize(), node.serialize());
@@ -130,6 +135,7 @@ class PropsEditor extends React.Component {
         }
         return null;
     }
+
     renderSimpleInputs(selectedNode) {
         const rows = this.getSimpleProps(selectedNode).map((key) => {
             return (
@@ -223,7 +229,7 @@ class PropsEditor extends React.Component {
                     { this.renderPorts(selectedNode) }
                 </div>
             </div>
-        )
+        );
     }
 }
 

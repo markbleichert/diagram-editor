@@ -22,7 +22,7 @@ const target = {
 
         let node;
         if (item.type === 'question') {
-            node = new InputNodeModel('Question Node');
+            node = new InputNodeModel('Question Node', null, { src: '', alt: '' });
         }
         if (item.type === 'endpoint') {
             node = new EndpointNodeModel('Endpoint Node');

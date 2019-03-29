@@ -22,31 +22,22 @@ class ContentEditor extends React.Component {
         return null;
     }
 
+    setObjectValue(obj, value, path) {
+        let i;
+        path = path.split('.');
+        for (i = 0; i < path.length - 1; i++)
+            obj = obj[path[i]];
+
+        obj[path[i]] = value;
+    }
+
     onChangeHandler(data, changeObject) {
-        // get first data prop in object
-        const objName = Object.keys(data)[0];
-
-        // set object property with changed value
-        data[objName][changeObject.name] = changeObject.value;
-
-        // clone data prop
-        const contentClone = Object.assign({}, this.props.data)
-
-        // merge changed data with clone
-        const changedContent = Object.assign(contentClone, data);
-
-        delete changedContent.content;
-
-        // return changed content object
-        this.props.onChange(changedContent)
+        this.setObjectValue(data, changeObject.value, changeObject.name);
+        this.props.onChange(data)
     }
 
     renderContentSimpleType(content, props) {
         const rows = props.map((key, index) => {
-            const data = {
-                content
-            };
-
             return (
                 <tr key={index}>
                     <th>{ key }</th>
@@ -54,7 +45,7 @@ class ContentEditor extends React.Component {
                         <EditableCell
                             name={key}
                             value={content[key]}
-                            onChange={this.onChangeHandler.bind(this, data)}
+                            onChange={this.onChangeHandler.bind(this, content)}
                         />
                     </td>
                 </tr>
@@ -76,8 +67,6 @@ class ContentEditor extends React.Component {
     renderContentObjectType(content, props) {
         return props.map((propName, index) => {
             const obj = content[propName];
-            const data = {};
-            data[propName] = obj;
 
             const rows = Object.keys(obj).map((key, index) => {
                 return (
@@ -85,9 +74,9 @@ class ContentEditor extends React.Component {
                         <th>{ key }</th>
                         <td>
                             <EditableCell
-                                name={key}
+                                name={`${propName}.${key}`}
                                 value={obj[key]}
-                                onChange={this.onChangeHandler.bind(this, data)}
+                                onChange={this.onChangeHandler.bind(this, content)}
                             />
                         </td>
                     </tr>
@@ -108,7 +97,6 @@ class ContentEditor extends React.Component {
                     </table>
                 </div>
             );
-
         });
     }
 

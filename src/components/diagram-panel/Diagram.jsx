@@ -22,7 +22,7 @@ const target = {
 
         let node;
         if (item.type === 'question') {
-            node = new InputNodeModel('Question Node', null, {
+            node = new InputNodeModel('Question Node', "rgb(192, 255, 0)", {
                 title: '',
                 body: '',
                 image: {

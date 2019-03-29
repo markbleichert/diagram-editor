@@ -22,6 +22,10 @@ class ColorPicker extends React.Component {
         });
     }
 
+    onColorChanged(color) {
+        this.props.onChange(color)
+    }
+
     renderPicker() {
         const popover = {
             position: 'absolute',
@@ -40,7 +44,7 @@ class ColorPicker extends React.Component {
             <div style={popover}>
                 <div style={cover} onClick={this.handleClose.bind(this)}/>
                 <TwitterPicker
-                    onChange={this.props.onChange}/>
+                    onChange={this.onColorChanged.bind(this)}/>
             </div>
         );
     }

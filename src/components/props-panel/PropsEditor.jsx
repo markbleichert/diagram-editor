@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { InputNodeModel } from '../nodes/input/InputNodeModel';
-import ColorPicker from './ColorPicker';
-import EditableInput from './EditableInput';
 import Port from './Port'
 import Model from './Model'
 import ContentEditor from './content/ContentEditor';
+import NodeEditor from './node/NodeEditor';
 
 class PropsEditor extends React.Component {
     constructor(props) {
@@ -27,22 +26,20 @@ class PropsEditor extends React.Component {
         e.stopPropagation();
     }
 
+    onNodeChange(data) {
+        const model = new Model(this.props.model);
+        const node = model.getNodeById(this.props.selectedNode.id);
+
+        node.setData(data);
+
+        this.props.updateModel(model.serialize(), node.serialize());
+    }
+
     onContentChange(data) {
         const model = new Model(this.props.model);
         const node = model.getNodeById(this.props.selectedNode.id);
 
         node.setProperty('content', data);
-
-        this.props.updateModel(model.serialize(), node.serialize());
-    }
-
-    onFocusInputOut(e) {
-        const name = e.target.getAttribute('data-name');
-
-        const model = new Model(this.props.model);
-        const node = model.getNodeById(this.props.selectedNode.id);
-
-        node.setProperty(name, e.target.innerText);
 
         this.props.updateModel(model.serialize(), node.serialize());
     }
@@ -87,97 +84,6 @@ class PropsEditor extends React.Component {
         this.props.updateModel(model.serialize(), node.serialize());
     }
 
-    getSimpleProps(selectedNode) {
-        return Object.keys(selectedNode).filter((key) => {
-            const value =  selectedNode[key];
-            return ( typeof value === 'string' || typeof value === 'number');
-        });
-    }
-
-    renderInputLabel(key) {
-        if (key === 'color') {
-            return (
-                <label>
-                    <span>{ key }</span>
-                    <ColorPicker onChange={this.handleColorClick.bind(this, key)}/>
-                </label>
-            );
-        }
-
-        return (<label>{ key }</label>);
-    }
-
-    renderImageInputs(image) {
-
-        if (image) {
-            return (
-                <table>
-                    <tbody>
-                    <tr>
-                        <th>
-                            <label>src</label>
-                        </th>
-                        <td>
-                            <EditableInput
-                                id={selectedNode.id}
-                                value={image.src}
-                                name="src"
-                                onBlur={this.onFocusInputOut.bind(this)}
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <label>alt</label>
-                        </th>
-                        <td>
-                            <EditableInput
-                                id={selectedNode.id}
-                                value={image.alt}
-                                name="alt"
-                                onBlur={this.onFocusInputOut.bind(this)}
-                            />
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            );
-        }
-        return null;
-    }
-
-    renderSimpleInputs(selectedNode) {
-        const rows = this.getSimpleProps(selectedNode).map((key) => {
-            return (
-                <tr key={key}>
-                    <th>{ this.renderInputLabel(key) }</th>
-                    <td>
-                        <EditableInput
-                            id={selectedNode.id}
-                            value={selectedNode[key]}
-                            name={key}
-                            onBlur={this.onFocusInputOut.bind(this)}
-                        />
-                    </td>
-                </tr>
-            );
-        });
-
-        if (rows.length > 0) {
-            return (
-                <table>
-                    <thead>
-                        <tr><th colSpan="2">root</th></tr>
-                    </thead>
-                    <tbody>
-                        { rows }
-                    </tbody>
-                </table>
-            );
-        }
-        return null;
-    }
-
     renderPort(port) {
         return (
             <Port key={port.id}
@@ -208,19 +114,6 @@ class PropsEditor extends React.Component {
         return null;
     }
 
-    handleColorClick(key, color) {
-        this.onFocusInputOut({
-            target: {
-                innerText: `rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`,
-                getAttribute: (key) => {
-                    if (key === 'data-name') {
-                        return 'color';
-                    }
-                }
-            }
-        });
-    }
-
     render() {
         const { selectedNode } = this.props;
 
@@ -237,8 +130,7 @@ class PropsEditor extends React.Component {
         return (
             <div className="props-panel">
                 <div className="container">
-                    { this.renderSimpleInputs(selectedNode) }
-                    { this.renderImageInputs(selectedNode.image) }
+                    <NodeEditor data={selectedNode} onChange={this.onNodeChange.bind(this)}/>
                     <ContentEditor data={selectedNode.content} onChange={this.onContentChange.bind(this)}/>
                     { this.renderPorts(selectedNode.ports) }
                 </div>

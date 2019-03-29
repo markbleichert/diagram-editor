@@ -21,7 +21,10 @@ function clean(object) {
 }
 
 function sanitize(data) {
-    const d = clean(data);
+    let d = {}
+    if (data) {
+        d = clean(data);
+    }
     return Object.keys(d).length > 0 ? data : null;
 }
 

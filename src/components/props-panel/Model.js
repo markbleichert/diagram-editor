@@ -41,20 +41,12 @@ class Node {
         this.node.color = value;
     }
 
-    setImageSrc(value) {
-        if (!this.node.image) {
-            this.node.image = {};
-        }
-
-        this.node.image.src = value;
-    }
-
-    setImageAlt(value) {
-        if (!this.node.image) {
-            this.node.image = {};
-        }
-
-        this.node.image.alt = value;
+    setData(obj) {
+        ['name', 'color'].forEach((key) => {
+            if (this.node[key] !== obj[key]) {
+                this.node[key] = obj[key]
+            }
+        });
     }
 
     setContent(obj) {
@@ -68,12 +60,6 @@ class Node {
                 break;
             case 'color':
                 this.setColor(value);
-                break;
-            case 'src':
-                this.setImageSrc(value);
-                break;
-            case 'alt':
-                this.setImageAlt(value);
                 break;
             case 'content':
                 this.setContent(value);

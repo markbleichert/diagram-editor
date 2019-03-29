@@ -1,4 +1,38 @@
-export const transform = function(model, selectedNode) {
+function clean(object) {
+    Object
+        .entries(object)
+        .forEach(([k, v]) => {
+            if (v && typeof v === 'object')
+                clean(v);
+            if (v &&
+                typeof v === 'object' &&
+                !Object.keys(v).length ||
+                v === null ||
+                v === undefined ||
+                v.length === 0
+            ) {
+                if (Array.isArray(object))
+                    object.splice(k, 1);
+                else if (!(v instanceof Date))
+                    delete object[k];
+            }
+        });
+    return object;
+}
+
+function sanitize(data) {
+    const d = clean(data);
+    return Object.keys(d).length > 0 ? data : null;
+}
+
+function jsonCopy(src) {
+    return JSON.parse(JSON.stringify(src));
+}
+
+
+export const transform = function(diagram, selectedNode) {
+    const model = jsonCopy(diagram);
+
     const m = {
         root: null,
         nodes: [],
@@ -25,16 +59,9 @@ export const transform = function(model, selectedNode) {
             };
 
             // add image only when present
-            if (node.image && node.image.src) {
-                qa.content = {
-                    image: {
-                        src: node.image.src,
-                        alt: node.image.alt
-                    }
-                };
-
-            } else {
-                console.warn('no image to process..');
+            const content = sanitize(node.content);
+            if (content) {
+                qa.content = content;
             }
 
             node.ports.forEach((port)=> {
@@ -57,6 +84,7 @@ export const transform = function(model, selectedNode) {
                         id: port.id,
                         text: port.label
                     };
+
                     // optional
                     if (image && image.src) {
                         option.image = image;

@@ -57,6 +57,10 @@ class Node {
         this.node.image.alt = value;
     }
 
+    setContent(obj) {
+        this.node.content = obj;
+    }
+
     setProperty(key, value) {
         switch(key) {
             case 'name':
@@ -70,6 +74,9 @@ class Node {
                 break;
             case 'alt':
                 this.setImageAlt(value);
+                break;
+            case 'content':
+                this.setContent(value);
                 break;
             default:
                 console.warn(`Can not set Node property ${key}`);

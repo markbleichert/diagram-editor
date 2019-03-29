@@ -5,6 +5,7 @@ import ColorPicker from './ColorPicker';
 import EditableInput from './EditableInput';
 import Port from './Port'
 import Model from './Model'
+import ContentEditor from './content/ContentEditor';
 
 class PropsEditor extends React.Component {
     constructor(props) {
@@ -24,6 +25,15 @@ class PropsEditor extends React.Component {
 
     onKeyDown(e) {
         e.stopPropagation();
+    }
+
+    onContentChange(data) {
+        const model = new Model(this.props.model);
+        const node = model.getNodeById(this.props.selectedNode.id);
+
+        node.setProperty('content', data);
+
+        this.props.updateModel(model.serialize(), node.serialize());
     }
 
     onFocusInputOut(e) {
@@ -72,7 +82,7 @@ class PropsEditor extends React.Component {
         const node = model.getNodeById(this.props.selectedNode.id);
 
         const port = this.createPort();
-        node.addPort(lastPort);
+        node.addPort(port);
 
         this.props.updateModel(model.serialize(), node.serialize());
     }
@@ -96,8 +106,8 @@ class PropsEditor extends React.Component {
 
         return (<label>{ key }</label>);
     }
-    renderImageInputs(selectedNode) {
-        const image = selectedNode.image;
+
+    renderImageInputs(image) {
 
         if (image) {
             return (
@@ -156,6 +166,9 @@ class PropsEditor extends React.Component {
         if (rows.length > 0) {
             return (
                 <table>
+                    <thead>
+                        <tr><th colSpan="2">root</th></tr>
+                    </thead>
                     <tbody>
                         { rows }
                     </tbody>
@@ -174,9 +187,7 @@ class PropsEditor extends React.Component {
                 onBlur={this.onFocusPortOut.bind(this)} />
         );
     }
-    renderPorts(selectedNode) {
-        const ports = selectedNode.ports;
-
+    renderPorts(ports) {
         const tables = Object.keys(ports)
             .filter((key) => !ports[key].in)
             .map((prop) => this.renderPort(ports[prop]));
@@ -184,9 +195,11 @@ class PropsEditor extends React.Component {
         if (tables.length > 0) {
             return (
                 <div>
-                    <label>Ports</label>
-                    <button className="add-port-button"
+                    <div className="ports-header">
+                        <label>Ports</label>
+                        <button className="add-port-button"
                             onClick={this.onAddPort.bind(this)}>+</button>
+                    </div>
                     { tables }
                 </div>
             );
@@ -225,8 +238,9 @@ class PropsEditor extends React.Component {
             <div className="props-panel">
                 <div className="container">
                     { this.renderSimpleInputs(selectedNode) }
-                    { this.renderImageInputs(selectedNode) }
-                    { this.renderPorts(selectedNode) }
+                    { this.renderImageInputs(selectedNode.image) }
+                    <ContentEditor data={selectedNode.content} onChange={this.onContentChange.bind(this)}/>
+                    { this.renderPorts(selectedNode.ports) }
                 </div>
             </div>
         );

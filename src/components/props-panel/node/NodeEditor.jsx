@@ -42,7 +42,7 @@ class NodeEditor extends React.Component {
 
     renderSimpleTypes(content, props) {
         const rows = props
-            .filter((key) => ['id', 'name'].includes(key))
+            .filter((key) => ['id', 'name', 'color'].includes(key))
             .map((key, index) => {
                 return (
                     <tr key={index}>

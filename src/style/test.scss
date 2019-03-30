@@ -137,6 +137,10 @@
 	border-left: 1px solid #ccc;
 	overflow: auto;
 
+	button {
+		outline: 0px;
+	}
+
 	.add-port-button {
 		margin: 0px 0px 0px 5px;;
 		width: 22px;
@@ -160,7 +164,7 @@
 	}
 
 	.port-container {
-		padding-left: 10px;
+		padding-left: 15px;
 		background: #eee;
 	}
 
@@ -217,7 +221,7 @@
 		}
 	}
 	.container {
-		padding: 5px 25px 15px 25px;
+		padding: 5px 35px 15px 25px;
 		//margin: 20px;
 		//border-radius: 20px;
 		background-color: #fff;

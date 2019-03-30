@@ -61,10 +61,7 @@ class PropsEditor extends React.Component {
         im.deSerialize(this.props.selectedNode);
 
         const id = Object.keys(this.props.selectedNode.ports).length;
-        im.addPortOut(`out${id}`, 'label text', {
-            src: '',
-            alt: ''
-        });
+        im.addPortOut(`out${id}`);
 
         const node = im.serialize();
 

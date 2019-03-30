@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as RJD from '../../../../lib/main';
-import {ImagePortModel} from '../custom/ImagePortModel'
+import { ImagePortModel } from '../custom/ImagePortModel'
 
 export class InputNodeModel extends RJD.NodeModel {
     constructor(name = 'Untitled', color = 'rgb(192, 255, 0)', content) {

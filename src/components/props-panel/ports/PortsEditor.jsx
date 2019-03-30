@@ -25,44 +25,47 @@ class PortsEditor extends React.Component {
     }
 
     renderPortObjectTypes(port, props) {
-        return ['image'].map((propName, index) => {
-            const obj = port[propName];
+        return props
+            .filter((key) => ['image'].includes(key))
+            .map((propName, index) => {
+                const obj = port[propName];
 
-            const rows = Object.keys(obj).map((key, index) => {
+                const rows = Object.keys(obj).map((key, index) => {
+                    return (
+                        <tr key={index}>
+                            <th>{ key }</th>
+                            <td>
+                                <EditableCell
+                                    name={`${propName}.${key}`}
+                                    value={obj[key]}
+                                    onChange={this.onChangeHandler.bind(this, port)}
+                                />
+                            </td>
+                        </tr>
+                    );
+                });
+
                 return (
-                    <tr key={index}>
-                        <th>{ key }</th>
-                        <td>
-                            <EditableCell
-                                name={`${propName}.${key}`}
-                                value={obj[key]}
-                                onChange={this.onChangeHandler.bind(this, port)}
-                            />
-                        </td>
-                    </tr>
+                    <div key={index} className="indent">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th colSpan="2">{ propName }</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {rows}
+                            </tbody>
+                        </table>
+                    </div>
                 );
             });
-
-            return (
-                <div key={index} className="indent">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th colSpan="2">{ propName }</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {rows}
-                        </tbody>
-                    </table>
-                </div>
-            );
-        });
     }
 
     renderPortSimpleTypes(port, keys) {
-        const rows =
-            keys.map((key, index) => {
+        const rows = keys
+            .filter((key) => ['label'].includes(key))
+            .map((key, index) => {
             return (
                 <tr key={index}>
                     <th>{ key }</th>
@@ -91,7 +94,7 @@ class PortsEditor extends React.Component {
         const simpleTypes = Object.keys(port).filter((key) => typeof port[key] === 'string');
 
         return (
-            <div>
+            <div className="port-container">
                 { this.renderPortSimpleTypes(port, simpleTypes) }
                 { this.renderPortObjectTypes(port, objectTypes) }
             </div>
@@ -114,7 +117,7 @@ class PortsEditor extends React.Component {
 
         if (ports.length > 0) {
             return (
-                <div>
+                <div className="ports-container">
                     <div className="ports-header">
                         <label>Ports</label>
                         <button className="add-port-button"

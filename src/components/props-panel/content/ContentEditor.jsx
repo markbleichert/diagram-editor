@@ -53,7 +53,7 @@ class ContentEditor extends React.Component {
         });
 
         return (
-            <table className="">
+            <table className="root">
                 <thead>
                     <tr><th colSpan="2">content</th></tr>
                 </thead>

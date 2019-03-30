@@ -41,19 +41,21 @@ class NodeEditor extends React.Component {
     }
 
     renderSimpleTypes(content, props) {
-        const rows = props.map((key, index) => {
-            return (
-                <tr key={index}>
-                    <th>{ this.renderLabel(key) }</th>
-                    <td>
-                        <EditableCell
-                            name={key}
-                            value={content[key]}
-                            onChange={this.onChangeHandler.bind(this, content)}
-                        />
-                    </td>
-                </tr>
-            );
+        const rows = props
+            .filter((key) => ['id', 'name'].includes(key))
+            .map((key, index) => {
+                return (
+                    <tr key={index}>
+                        <th>{ this.renderLabel(key) }</th>
+                        <td>
+                            <EditableCell
+                                name={key}
+                                value={content[key]}
+                                onChange={this.onChangeHandler.bind(this, content)}
+                            />
+                        </td>
+                    </tr>
+                );
         });
 
         return (

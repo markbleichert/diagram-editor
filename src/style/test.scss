@@ -148,25 +148,48 @@
 	}
 
 	.add-port-button:hover {
-		border-color: cadetblue;
+		border-color: lightblue;
 		color: #ccc;
 	}
 
 	.ports-header {
-		padding: 5px;
+		margin-top: 20px;
+		padding: 4px;
 		background: lightblue;
+		margin-bottom: 0px;
+	}
+
+	.port-container {
+		padding-left: 10px;
+		background: #eee;
 	}
 
 	.indent {
 		background-color: #eee;
-		padding-left: 20px;
-	}
+		//padding-left: 20px;
+
+		table {
+			margin-top: 0px;
+
+			thead th {
+				background: #fff;
+				padding: 14px 2px 2px 6px;
+				font-weight: bold;
+				border: 0;
+				border-left: 1px solid #ccc;
+			}
+
+			th {
+				font-weight: normal;
+			}
+
+		}
+		}
 
 	table {
 		width: 100%;
 		border-collapse: collapse;
-		margin-top: 5px;
-		margin-bottom: 20px;
+		margin-top: 15px;
 		background-color: #fff;
 
 		thead th {
@@ -184,6 +207,7 @@
 			padding: 6px;
 			border: 1px solid #ccc;
 			text-align: left;
+			font-weight: bold;
 		}
 
 		td {
@@ -193,11 +217,11 @@
 		}
 	}
 	.container {
-		padding: 15px;
+		padding: 5px 25px 15px 25px;
 		//margin: 20px;
 		//border-radius: 20px;
 		background-color: #fff;
-		height: 100%;
+		height: 95vm;
 	}
 }
 

@@ -4,11 +4,10 @@ import {ImagePortModel} from '../custom/ImagePortModel'
 
 export class InputNodeModel extends RJD.NodeModel {
     constructor(name = 'Untitled', color = 'rgb(192, 255, 0)', content) {
-
         super('input');
         this.addPort(new RJD.DefaultPortModel(true, 'input', 'In'));
-        this.addPort(new ImagePortModel(false, 'out1', 'Out 1', {}));
-        this.addPort(new ImagePortModel(false, 'out2', 'Out 2', {}));
+        this.addPort(new ImagePortModel(false, 'out1', 'Out 1'));
+        this.addPort(new ImagePortModel(false, 'out2', 'Out 2'));
 
         this.name = name;
         this.color = color;
@@ -16,10 +15,7 @@ export class InputNodeModel extends RJD.NodeModel {
     }
 
     addPortOut(id, label, image) {
-        this.addPort(new ImagePortModel(false, id, label, {
-            src: './images/pas1.jpeg',
-            alt: 'untitled'
-        }));
+        this.addPort(new ImagePortModel(false, id, label, image));
     }
 
     deSerialize(object) {

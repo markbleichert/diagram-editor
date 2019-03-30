@@ -1,7 +1,7 @@
 import { PortModel } from '../../../../lib/Common';
 
 export class ImagePortModel extends PortModel {
-    constructor(isInput, name, label = null, image = null) {
+    constructor(isInput, name, label = null, image = { src: '', alt: '' }) {
         super(name);
         this.in = isInput;
         this.label = label || name;

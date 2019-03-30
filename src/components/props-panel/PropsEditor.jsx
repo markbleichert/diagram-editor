@@ -41,7 +41,7 @@ class PropsEditor extends React.Component {
         const model = new Model(this.props.model);
         const node = model.getNodeById(this.props.selectedNode.id);
 
-        node.setProperty('content', data);
+        node.setContent(data);
 
         this.props.updateModel(model.serialize(), node.serialize());
     }

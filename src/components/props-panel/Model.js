@@ -93,6 +93,14 @@ class Port {
 
     }
 
+    setData(obj) {
+        ['label'].forEach((key) => {
+            if (this.port[key] !== obj[key]) {
+                this.port[key] = obj[key]
+            }
+        });
+    }
+
     setProperty(key, value) {
         switch(key) {
             case 'label':

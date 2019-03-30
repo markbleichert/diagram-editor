@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { InputNodeModel } from '../nodes/input/InputNodeModel';
-import Port from './Port'
 import Model from './Model'
 import ContentEditor from './content/ContentEditor';
 import NodeEditor from './node/NodeEditor';
+import PortsEditor from './ports/PortsEditor';
+import { InputNodeModel } from '../nodes/input/InputNodeModel';
 
 class PropsEditor extends React.Component {
     constructor(props) {
@@ -23,6 +23,8 @@ class PropsEditor extends React.Component {
     }
 
     onKeyDown(e) {
+        // this is a hack to stop keydown events
+        // attached to window in diagram component
         e.stopPropagation();
     }
 
@@ -44,29 +46,24 @@ class PropsEditor extends React.Component {
         this.props.updateModel(model.serialize(), node.serialize());
     }
 
-    onFocusPortOut(e) {
-        const id = e.target.getAttribute('data-id');
-        const name = e.target.getAttribute('data-name');
-        const value = e.target.innerText;
-
-
+    onPortChange(data) {
         const model = new Model(this.props.model);
         const node = model.getNodeById(this.props.selectedNode.id);
-        const port = node.getPortById(id);
+        const port = node.getPortById(data.id);
 
-        port.setProperty(name, value);
+        port.setData(data);
 
-        this.props.updateModel(this.props.model, this.props.selectedNode);
+        this.props.updateModel(model.serialize(), node.serialize());
     }
 
     createPort() {
         const im = new InputNodeModel('input');
         im.deSerialize(this.props.selectedNode);
 
-        const id = this.props.selectedNode.ports.length + 1;
+        const id = Object.keys(this.props.selectedNode.ports).length;
         im.addPortOut(`out${id}`, 'label text', {
-            src: './images/pas1.jpeg',
-            alt: 'alt text'
+            src: '',
+            alt: ''
         });
 
         const node = im.serialize();
@@ -74,44 +71,15 @@ class PropsEditor extends React.Component {
         return  node.ports.pop();
 
     }
-    onAddPort() {
+
+    onPortAdd() {
         const model = new Model(this.props.model);
         const node = model.getNodeById(this.props.selectedNode.id);
-
         const port = this.createPort();
+
         node.addPort(port);
 
         this.props.updateModel(model.serialize(), node.serialize());
-    }
-
-    renderPort(port) {
-        return (
-            <Port key={port.id}
-                id={port.id}
-                label={port.label}
-                image={port.image}
-                onBlur={this.onFocusPortOut.bind(this)} />
-        );
-    }
-    renderPorts(ports) {
-        const tables = Object.keys(ports)
-            .filter((key) => !ports[key].in)
-            .map((prop) => this.renderPort(ports[prop]));
-
-        if (tables.length > 0) {
-            return (
-                <div>
-                    <div className="ports-header">
-                        <label>Ports</label>
-                        <button className="add-port-button"
-                            onClick={this.onAddPort.bind(this)}>+</button>
-                    </div>
-                    { tables }
-                </div>
-            );
-        }
-
-        return null;
     }
 
     render() {
@@ -132,7 +100,10 @@ class PropsEditor extends React.Component {
                 <div className="container">
                     <NodeEditor data={selectedNode} onChange={this.onNodeChange.bind(this)}/>
                     <ContentEditor data={selectedNode.content} onChange={this.onContentChange.bind(this)}/>
-                    { this.renderPorts(selectedNode.ports) }
+                    <PortsEditor
+                        data={selectedNode.ports}
+                        onAdd={this.onPortAdd.bind(this)}
+                        onChange={this.onPortChange.bind(this)} />
                 </div>
             </div>
         );

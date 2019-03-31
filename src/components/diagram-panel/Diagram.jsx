@@ -25,6 +25,9 @@ const target = {
             node = new InputNodeModel('Question Node', 'rgb(192, 255, 0)', {
                 title: '',
                 body: '',
+                video: {
+                    url: ''
+                },
                 image: {
                     src: '',
                     alt: ''
@@ -37,7 +40,18 @@ const target = {
         }
 
         if (item.type === 'endpoint') {
-            node = new EndpointNodeModel('Endpoint Node');
+            node = new EndpointNodeModel('Endpoint Node', 'rgb(192, 255, 0)', {
+                title: '',
+                body: '',
+                image: {
+                    src: '',
+                    alt: ''
+                },
+                link: {
+                    url: '',
+                    text: ''
+                }
+            });
         }
 
         node.x = x;

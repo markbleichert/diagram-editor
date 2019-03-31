@@ -85,7 +85,7 @@ class PropsEditor extends React.Component {
         if (!selectedNode) {
             return (
                 <div className="props-panel">
-                    <div className="container">
+                    <div className="container max">
                         no selection..
                     </div>
                 </div>

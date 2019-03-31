@@ -21,11 +21,11 @@ function clean(object) {
 }
 
 function sanitize(data) {
-    let d = {}
+    let d = null;
     if (data) {
         d = clean(data);
     }
-    return Object.keys(d).length > 0 ? data : null;
+
 }
 
 function jsonCopy(src) {
@@ -101,19 +101,32 @@ export const transform = function(diagram, selectedNode) {
         }
 
         if (node.type === 'endpoint') {
-            return {
+            const ep = {
                 id: node.id,
                 type: 'endpoint',
-                template: 'EP_CONTENT',
-                content: {
-                    title: node.name,
-                    body: '',
-                    link: {
-                        url: '#',
-                        text: 'not available'
-                    }
+                template: 'EP_CONTENT'
+            };
+
+            // @todo: fix this !!!
+            // const content = sanitize(node.content);
+            const content = {
+                title: node.content.title || node.name,
+                body: node.content.body,
+                image: {
+                    src: node.content.image && node.content.image.src,
+                    alt: node.content.image && node.content.image.alt
+                },
+                link: {
+                    url: node.content.link && node.content.link.url ,
+                    text: node.content.link && node.content.link.text
                 }
             };
+
+            if (content) {
+                ep.content = content;
+            }
+
+            return ep;
         }
     });
 
@@ -130,6 +143,6 @@ export const transform = function(diagram, selectedNode) {
             }
         };
     });
-
+    console.log(m)
     return m;
 };

@@ -25,7 +25,11 @@ function sanitize(data) {
     if (data) {
         d = clean(data);
     }
-    return Object.keys(d).length > 0 ? d : null;
+
+    if (d) {
+        return Object.keys(d).length > 0 ? d : null;
+    }
+    return null;
 }
 
 function jsonCopy(src) {
@@ -106,21 +110,7 @@ export const transform = function(diagram, selectedNode) {
                 template: 'EP_CONTENT'
             };
 
-            // @todo: fix this !!!
-            // const content = sanitize(node.content);
-            const content = {
-                title: node.content && node.content.title || node.name,
-                body: node.content && node.content.body,
-                image: {
-                    src: node.content && node.content.image && node.content.image.src,
-                    alt: node.content && node.content.image && node.content.image.alt
-                },
-                link: {
-                    url: node.content && node.content.link && node.content.link.url ,
-                    text: node.content && node.content.link && node.content.link.text
-                }
-            };
-
+            const content = sanitize(node.content);
             if (content) {
                 ep.content = content;
             }

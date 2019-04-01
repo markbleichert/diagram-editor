@@ -25,13 +25,12 @@ function sanitize(data) {
     if (data) {
         d = clean(data);
     }
-
+    return Object.keys(d).length > 0 ? d : null;
 }
 
 function jsonCopy(src) {
     return JSON.parse(JSON.stringify(src));
 }
-
 
 export const transform = function(diagram, selectedNode) {
     const model = jsonCopy(diagram);
@@ -110,15 +109,15 @@ export const transform = function(diagram, selectedNode) {
             // @todo: fix this !!!
             // const content = sanitize(node.content);
             const content = {
-                title: node.content.title || node.name,
-                body: node.content.body,
+                title: node.content && node.content.title || node.name,
+                body: node.content && node.content.body,
                 image: {
-                    src: node.content.image && node.content.image.src,
-                    alt: node.content.image && node.content.image.alt
+                    src: node.content && node.content.image && node.content.image.src,
+                    alt: node.content && node.content.image && node.content.image.alt
                 },
                 link: {
-                    url: node.content.link && node.content.link.url ,
-                    text: node.content.link && node.content.link.text
+                    url: node.content && node.content.link && node.content.link.url ,
+                    text: node.content && node.content.link && node.content.link.text
                 }
             };
 

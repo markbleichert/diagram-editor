@@ -64,7 +64,7 @@ class PortsEditor extends React.Component {
 
     renderPortSimpleTypes(port, keys) {
         const rows = keys
-            .filter((key) => ['label'].includes(key))
+            .filter((key) => ['label', 'value'].includes(key))
             .map((key, index) => {
             return (
                 <tr key={index}>

@@ -14,8 +14,8 @@ export class InputNodeModel extends RJD.NodeModel {
         this.content = content;
     }
 
-    addPortOut(id, label, image) {
-        this.addPort(new ImagePortModel(false, id, label, image));
+    addPortOut(id, label, value, image) {
+        this.addPort(new ImagePortModel(false, id, label, value, image));
     }
 
     deSerialize(object) {

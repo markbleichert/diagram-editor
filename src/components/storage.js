@@ -26,5 +26,9 @@ export default {
 
     getFromStorage(id) {
         return this.parseItem(localStorage.getItem(id));
+    },
+
+    removeItem(id) {
+        localStorage.removeItem(id);
     }
 };

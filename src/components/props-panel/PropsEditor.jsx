@@ -28,6 +28,13 @@ class PropsEditor extends React.Component {
         e.stopPropagation();
     }
 
+    onModelNameChange(data) {
+        const model = new Model(this.props.model);
+        model.setName(data.name);
+
+        this.props.updateModel(model.serialize());
+    }
+
     onNodeChange(data) {
         const model = new Model(this.props.model);
         const node = model.getNodeById(this.props.selectedNode.id);
@@ -80,13 +87,13 @@ class PropsEditor extends React.Component {
     }
 
     render() {
-        const { selectedNode } = this.props;
+        const { selectedNode, model } = this.props;
 
         if (!selectedNode) {
             return (
                 <div className="props-panel">
                     <div className="container max">
-                        no selection..
+                        <NodeEditor data={model} onChange={this.onModelNameChange.bind(this)}/>
                     </div>
                 </div>
             );

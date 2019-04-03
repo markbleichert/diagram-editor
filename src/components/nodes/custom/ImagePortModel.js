@@ -1,10 +1,11 @@
 import { PortModel } from '../../../../lib/Common';
 
 export class ImagePortModel extends PortModel {
-    constructor(isInput, name, label = 'untitled', image = { src: '', alt: '' }) {
+    constructor(isInput, name, label = 'untitled', value = '', image = { src: '', alt: '' }) {
         super(name);
         this.in = isInput;
-        this.label = label || name;
+        this.label = label;
+        this.value = value;
         this.image = image;
     }
 
@@ -12,6 +13,7 @@ export class ImagePortModel extends PortModel {
         super.deSerialize(object);
         this.in = object.in;
         this.label = object.label;
+        this.value = object.value;
         this.image = object.image;
     }
 
@@ -20,6 +22,7 @@ export class ImagePortModel extends PortModel {
             ...super.serialize(),
             in: this.in,
             label: this.label,
+            value: this.value,
             image: this.image
         };
     }

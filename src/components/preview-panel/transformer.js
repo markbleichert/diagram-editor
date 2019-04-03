@@ -88,6 +88,7 @@ export const transform = function(diagram, selectedNode) {
                     // required
                     const option = {
                         id: port.id,
+                        value: port.value,
                         text: port.label
                     };
 
@@ -132,6 +133,6 @@ export const transform = function(diagram, selectedNode) {
             }
         };
     });
-    console.log(m)
+    console.log(m);
     return m;
 };

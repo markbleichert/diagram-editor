@@ -52,6 +52,23 @@ class App extends React.Component {
         });
     }
 
+    onRemoveModel(id) {
+        Storage.removeItem(id);
+
+        let models = Storage.getAllFromStorage();
+
+        // needed when nothing in storage
+        if (models.length === 0) {
+            models.push(new RJD.DiagramModel())
+        }
+
+        this.setState({
+            savedModels: models,
+            model: models[0],
+            selectedNode: null
+        });
+    }
+
     onUpdateModel(model, node) {
         this.setState({
             model: model,
@@ -68,6 +85,7 @@ class App extends React.Component {
                         savedModels={this.state.savedModels}
                         selectionChanged={this.onSelectionChanged.bind(this)}
                         modelCreated={this.onModelCreated.bind(this)}
+                        removeModel={this.onRemoveModel.bind(this)}
                     />
                 </div>
                 <div className="left-panel">

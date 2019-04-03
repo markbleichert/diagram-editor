@@ -11,6 +11,12 @@ class Model {
         return node ? new Node(node) : null;
     }
 
+    setName(name) {
+        if (name) {
+            this.model.name = name;
+        }
+    }
+
     serialize() {
         return this.model;
     }

@@ -4,6 +4,7 @@ import * as RJD from '../../../lib/main';
 import _ from 'lodash';
 
 import { engine } from './engine';
+import { ConnectionNodeModel } from '../nodes/connection/ConnectionNodeModel';
 import { InputNodeModel } from '../nodes/input/InputNodeModel';
 import { EndpointNodeModel } from '../nodes/endpoint/EndpointNodeModel';
 
@@ -21,6 +22,22 @@ const target = {
         const item = monitor.getItem();
 
         let node;
+
+        if (item.type === 'connection') {
+            node = new ConnectionNodeModel('Connection Node', 'rgb(124, 28, 120)', {
+                title: '',
+                body: '',
+                image: {
+                    src: '',
+                    alt: ''
+                },
+                info: {
+                    title: '',
+                    body: ''
+                }
+            });
+        }
+
         if (item.type === 'question') {
             node = new InputNodeModel('Question Node', 'rgb(192, 255, 0)', {
                 title: '',

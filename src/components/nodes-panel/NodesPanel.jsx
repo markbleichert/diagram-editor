@@ -7,6 +7,9 @@ class NodesPanel extends React.Component {
             <div className="panel-wrapper">
                 <div className="nodes-panel">
                     <div className='node-wrapper'>
+                        <Node type='connection' color='rgb(124, 28, 120)'/>
+                    </div>
+                    <div className='node-wrapper'>
                         <Node type='question' color='rgb(224, 28, 120)'/>
                     </div>
                     <div className='node-wrapper'>

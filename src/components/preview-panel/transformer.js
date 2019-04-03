@@ -54,6 +54,33 @@ export const transform = function(diagram, selectedNode) {
     m.root = rootId;
 
     m.nodes = model.nodes.map((node) => {
+        if (node.type === 'connection') {
+            const qa = {
+                id: node.id,
+                type: 'connection',
+                template: 'QA_TILES',
+                question: node.name,
+                options: []
+            };
+
+            // add image only when present
+            const content = sanitize(node.content);
+            if (content) {
+                qa.content = content;
+            }
+
+            node.ports.forEach((port)=> {
+                if (!port.in) {
+                    qa.options.push({
+                        id: port.id,
+                        text: port.label
+                    });
+                }
+            });
+
+            return qa;
+        }
+
         if (node.type === 'input') {
 
             const qa = {
@@ -133,6 +160,7 @@ export const transform = function(diagram, selectedNode) {
             }
         };
     });
-    console.log(m);
+    console.log(JSON.stringify(m, null, 2));
+    //console.log(m);
     return m;
 };

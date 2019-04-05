@@ -81,6 +81,8 @@ const target = {
         node.x = x;
         node.y = y;
 
+        node.setSelected(true);
+
         diagramModel.addNode(node);
 
         // update the diagram with new widget

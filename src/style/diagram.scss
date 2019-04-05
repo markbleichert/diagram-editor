@@ -1,0 +1,327 @@
+
+.actionbar {
+  background-color: transparent;
+
+  button {
+    padding: 6px;
+    margin: 4px;
+    border-radius: 5px;
+    background-color: #fff !important;
+  }
+
+  button:hover {
+    background-color: #eee !important;
+  }
+
+  select {
+    height: 26px;
+  }
+}
+
+.diagram-panel {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  height: 90vh;
+
+  .diagram {
+    flex: 1.2;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .preview-panel {
+    flex: 0.8;
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    transition:all 500ms ease;
+    margin-top: 20px;
+
+    &.expanded {
+      flex: 100%;
+    }
+
+    &.modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      transform: translate(-50%, -52%);
+      z-index: 1000;
+    }
+
+    .preview-wrapper {
+      display: flex;
+      flex: 100%;
+      flex-direction: column;
+
+      &.is-expanded {
+      }
+    }
+
+    button {
+      font-family: 'Lato';
+      font-size: 0.8rem;
+      padding: 2px 7px;
+      margin: 0 1px 0 0;
+      border-width: 1px;
+      border-radius: 2px;
+
+      span {
+        pointer-events: none;
+        position: relative;
+        display: block;
+        width: 30px;
+        height: 2px;
+        top: 50%;
+        left: 50%;
+        background: #c3c3c3;
+        border-radius: 2px;
+        overflow: hidden;
+        transition: all 0.3s linear;
+        margin: 2px;
+      }
+    }
+
+    button:focus {
+      background: #eee;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+  }
+}
+
+
+
+.props-panel {
+  height: 100%;
+  overflow: auto;
+  width: 400px;
+
+  button {
+    outline: 0px;
+  }
+
+  .add-port-button {
+    margin: 0px 0px 0px 5px;;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: small;
+    opacity: 0.9;
+    color: #000;
+  }
+
+  .add-port-button:hover {
+    border-color: lightblue;
+    color: #ccc;
+  }
+
+  .ports-header {
+    margin-top: 20px;
+    padding: 4px;
+    background: lightblue;
+    margin-bottom: 0px;
+  }
+
+  .port-container {
+    padding-left: 15px;
+    background: #eee;
+  }
+
+  .indent {
+    background-color: #eee;
+    //padding-left: 20px;
+
+    table {
+      margin-top: 0px;
+
+      thead th {
+        background: #fff;
+        padding: 14px 2px 2px 6px;
+        font-weight: bold;
+        border: 0;
+        border-left: 1px solid #ccc;
+      }
+
+      th {
+        font-weight: normal;
+      }
+
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: #fff;
+
+    thead th {
+      text-transform: capitalize;
+      font-weight: normal;
+      width: 30%;
+      border: 1px solid #ccc;
+      text-align: left;
+      padding: 4px;
+      background: lightblue;
+    }
+
+    tbody th {
+      width: 30%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    td {
+      padding: 6px;
+      border: 1px solid #ccc;
+      text-align: left;
+      word-break: break-all;
+    }
+  }
+  .container {
+    padding: 5px 35px 15px 25px;
+    //margin: 20px;
+    //border-radius: 20px;
+    background-color: #fff;
+    height: 95vm;
+  }
+
+  .max {
+    height: 100%;
+  }
+}
+
+.editable-label {
+  position: relative;
+  display: block;
+  padding: 5px;
+  height: 25px;
+}
+
+.parsed-nodes {
+  background: #fff;
+  margin: 5px;
+  padding: 5px;
+}
+.selected-node {
+  background: #eee;
+  margin: 5px;
+  padding: 5px;
+}
+
+.draggable {
+  position: relative;
+  display: inline-block;
+  height: 70px;
+  width: 70px;
+  background: orange;
+  border-radius: 10px;
+}
+
+.nodes-panel {
+  flex-direction: column;
+  background-color: transparent;
+  padding: 1rem;
+
+  .node-wrapper {
+    margin-bottom: 1rem;
+
+    .basic-node {
+      width: 120px;
+    }
+  }
+}
+
+.color-picker {
+  margin-right: 0px;
+  margin-left: 10px;
+
+  button {
+    height: 20px;
+    width: 20px;
+  }
+}
+// Diagram SASS
+.port{
+  width: 15px;
+  height: 15px;
+  background: rgba(white,0.1);
+  &:hover,&.selected{
+    background: rgb(192,255,0);
+  }
+}
+
+.basic-node {
+  background-color: rgb(30,30,30);
+  border-radius: 5px;
+  font-family:Arial;
+  color: white;
+  border: solid 2px black;
+  overflow: visible;
+  font-size: 12px;
+  box-shadow: 0 0 10px rgba(black,0.5);
+  width: 120px;
+
+  .title{
+    background: rgba(black,0.3);
+    display: flex;
+    white-space: nowrap;
+    >*{
+      align-self: center;
+    }
+
+    .fa{
+      padding: 5px;
+      opacity: 0.2;
+      cursor: pointer;
+
+      &:hover{
+        opacity: 1.0;
+      }
+    }
+
+    .name{
+      flex-grow: 1;
+      padding: 5px 5px;
+      white-space: normal;
+    }
+  }
+
+  .ports{
+    display: flex;
+    background-image: linear-gradient(rgba(black,0.1),rgba(black,0.2));
+    padding: 5px;
+
+    .in, .out{
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .in-port,.out-port{
+      display: flex;
+      margin-top: 1px;
+      >*{
+        align-self: center;
+      }
+      .name{
+        padding: 0 5px;
+      }
+    }
+
+    .out-port{
+      justify-content: flex-end;
+      .name{
+        justify-content: flex-end;
+        text-align: right;
+      }
+    }
+  }
+}

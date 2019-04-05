@@ -28,8 +28,24 @@ class App extends React.Component {
             model: models[0],
             selectedNode: null
         }
+
+    }
+    componentDidMount() {
+        this.addUIEventHandlers();
     }
 
+    addUIEventHandlers() {
+        const $ = (selector) => document.querySelector(selector)
+        const $$ = (selector) => document.querySelectorAll(selector)
+        const on = (elem, type, listener) => elem.addEventListener(type,listener)
+
+        on($('#toggle-left'),'click',()=>{
+            $$(".start").forEach((elem) => elem.classList.toggle('closed'))
+        })
+        on($('#toggle-right'),'click',()=>{
+            $$(".end").forEach((elem) => elem.classList.toggle('closed'))
+        });
+    }
     onModelCreated() {
         const diagramModel = new RJD.DiagramModel();
 
@@ -84,37 +100,59 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="app-container">
-                <div className="actionbar">
-                    <ActionBar
-                        selectedId={this.state.model.id}
-                        savedModels={this.state.savedModels}
-                        selectionChanged={this.onSelectionChanged.bind(this)}
-                        modelCreated={this.onModelCreated.bind(this)}
-                        removeModel={this.onRemoveModel.bind(this)}
-                    />
-                </div>
-                <div className="left-panel">
+            <div id='grid'>
+                <div className="toolbar header start"></div>
+                <div className="panel middle start scroll">
                     <NodesPanel />
                 </div>
-                <div className="diagram-panel">
-                    <Diagram
-                        selectedNode={this.state.selectedNode}
-                        model={this.state.model}
-                        updateModel={this.onUpdateModel.bind(this)}/>
-                    <div className="preview-panel">
-                        <Preview model={this.state.model} selectedNode={this.state.selectedNode}/>
-                    </div>
+                <div className="toolbar footer start">
+                    <button className="fa fa-plus-circle"></button>
+                    <button className="fa fa-minus-circle"></button>
                 </div>
-                <div className="right-panel">
-                    <PropsEditor
-                        model={this.state.model}
-                        selectedNode={this.state.selectedNode}
-                        updateModel={this.onUpdateModel.bind(this)} />
 
+                <div className="toolbar header center">
+                    <div className="actionbar">
+                         <ActionBar
+                             selectedId={this.state.model.id}
+                             savedModels={this.state.savedModels}
+                             selectionChanged={this.onSelectionChanged.bind(this)}
+                             modelCreated={this.onModelCreated.bind(this)}
+                             removeModel={this.onRemoveModel.bind(this)}
+                         />
+                     </div>
                 </div>
+
+                <div className="content middle center">
+                     <div className="diagram-panel">
+                         <Diagram
+                             selectedNode={this.state.selectedNode}
+                             model={this.state.model}
+                             updateModel={this.onUpdateModel.bind(this)}/>
+                         <div className="preview-panel">
+                             <Preview model={this.state.model} selectedNode={this.state.selectedNode}/>
+                         </div>
+                     </div>
+                </div>
+
+                <div className="toolbar footer center">
+                    <button id="toggle-left"> &lt;</button>
+                    <span className='spacer'></span>
+                    <button id="toggle-right"> &gt;</button>
+                </div>
+
+
+                <div className="toolbar header end"></div>
+
+                <div className="panel middle end scroll">
+                    <PropsEditor
+                         model={this.state.model}
+                         selectedNode={this.state.selectedNode}
+                         updateModel={this.onUpdateModel.bind(this)} />
+                </div>
+
+                <div className="toolbar footer end">{this.state.model.name}</div>
             </div>
-        )
+        );
     }
 }
 

@@ -98,7 +98,7 @@ class PropsEditor extends React.Component {
                 </div>
             );
         }
-
+        console.log(selectedNode);
         return (
             <div className="props-panel">
                 <div className="container">

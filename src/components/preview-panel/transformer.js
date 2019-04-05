@@ -36,6 +36,97 @@ function jsonCopy(src) {
     return JSON.parse(JSON.stringify(src));
 }
 
+function addConnection(node) {
+    const qa = {
+        id: node.id,
+        type: 'connection',
+        template: 'QA_TILES',
+        question: node.name,
+        options: []
+    };
+
+    // add image only when present
+    const content = sanitize(node.content);
+    if (content) {
+        qa.content = content;
+    }
+
+    node.ports.forEach((port)=> {
+        if (!port.in) {
+            qa.options.push({
+                id: port.id,
+                text: port.label
+            });
+        }
+    });
+
+    return qa;
+}
+
+function addQuestion(node) {
+    const qa = {
+        id: node.id,
+        type: 'question',
+        template: 'QA_TILES',
+        question: node.name,
+        options: []
+    };
+
+    // add image only when present
+    const content = sanitize(node.content);
+    if (content) {
+        qa.content = content;
+    }
+
+    node.ports.forEach((port)=> {
+        if (!port.in) {
+            let image = null;
+
+            if (port.image) {
+                image = {};
+                if (port.image.src) {
+                    image.src = port.image.src;
+                }
+                if (port.image.alt) {
+                    image.alt = port.image.alt;
+                }
+
+            }
+
+            // required
+            const option = {
+                id: port.id,
+                value: port.value,
+                text: port.label
+            };
+
+            // optional
+            if (image && image.src) {
+                option.image = image;
+            }
+
+            qa.options.push(option);
+        }
+    });
+
+    return qa;
+}
+
+function addEndpoint(node) {
+    const ep = {
+        id: node.id,
+        type: 'endpoint',
+        template: 'EP_CONTENT'
+    };
+
+    const content = sanitize(node.content);
+    if (content) {
+        ep.content = content;
+    }
+
+    return ep;
+}
+
 export const transform = function(diagram, selectedNode) {
     const model = jsonCopy(diagram);
 
@@ -55,95 +146,15 @@ export const transform = function(diagram, selectedNode) {
 
     m.nodes = model.nodes.map((node) => {
         if (node.type === 'connection') {
-            const qa = {
-                id: node.id,
-                type: 'connection',
-                template: 'QA_TILES',
-                question: node.name,
-                options: []
-            };
-
-            // add image only when present
-            const content = sanitize(node.content);
-            if (content) {
-                qa.content = content;
-            }
-
-            node.ports.forEach((port)=> {
-                if (!port.in) {
-                    qa.options.push({
-                        id: port.id,
-                        text: port.label
-                    });
-                }
-            });
-
-            return qa;
+            return addConnection(node);
         }
 
         if (node.type === 'input') {
-
-            const qa = {
-                id: node.id,
-                type: 'question',
-                template: 'QA_TILES',
-                question: node.name,
-                options: []
-            };
-
-            // add image only when present
-            const content = sanitize(node.content);
-            if (content) {
-                qa.content = content;
-            }
-
-            node.ports.forEach((port)=> {
-                if (!port.in) {
-                    let image = null;
-
-                    if (port.image) {
-                        image = {};
-                        if (port.image.src) {
-                            image.src = port.image.src;
-                        }
-                        if (port.image.alt) {
-                            image.alt = port.image.alt;
-                        }
-
-                    }
-
-                    // required
-                    const option = {
-                        id: port.id,
-                        value: port.value,
-                        text: port.label
-                    };
-
-                    // optional
-                    if (image && image.src) {
-                        option.image = image;
-                    }
-
-                    qa.options.push(option);
-                }
-            });
-
-            return qa;
+            return addQuestion(node);
         }
 
         if (node.type === 'endpoint') {
-            const ep = {
-                id: node.id,
-                type: 'endpoint',
-                template: 'EP_CONTENT'
-            };
-
-            const content = sanitize(node.content);
-            if (content) {
-                ep.content = content;
-            }
-
-            return ep;
+            return addEndpoint(node);
         }
     });
 
@@ -160,7 +171,7 @@ export const transform = function(diagram, selectedNode) {
             }
         };
     });
-    console.log(JSON.stringify(m, null, 2));
-    //console.log(m);
+    // console.log(JSON.stringify(m, null, 2));
+    // console.log(m);
     return m;
 };

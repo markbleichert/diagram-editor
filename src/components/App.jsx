@@ -69,7 +69,13 @@ class App extends React.Component {
         });
     }
 
-    onUpdateModel(model, node) {
+    onUpdateModel(model, _node) {
+        // pass a copy of selected node
+        let node = null;
+        if (_node) {
+            node = JSON.parse(JSON.stringify(_node));
+        }
+
         this.setState({
             model: model,
             selectedNode: node

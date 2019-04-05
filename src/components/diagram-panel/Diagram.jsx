@@ -60,12 +60,19 @@ const target = {
             node = new EndpointNodeModel('Endpoint Node', 'rgb(192, 255, 0)', {
                 title: '',
                 body: '',
+                video: {
+                    url: ''
+                },
                 image: {
                     src: '',
                     alt: ''
                 },
+                info: {
+                    title: '',
+                    body: ''
+                },
                 link: {
-                    url: '',
+                    src: '',
                     text: ''
                 }
             });
@@ -77,7 +84,7 @@ const target = {
         diagramModel.addNode(node);
 
         // update the diagram with new widget
-        props.updateModel(diagramModel.serializeDiagram());
+        props.updateModel(diagramModel.serializeDiagram(), node.serialize());
     }
 };
 
@@ -122,12 +129,14 @@ class Diagram extends React.Component {
         // Check for canvas events
         const deselectEvts = ['canvas-click', 'canvas-drag', 'items-selected', 'items-drag-selected', 'items-moved'];
         if (deselectEvts.indexOf(action.type) !== -1) {
-            return this.props.updateModel(model, action.model);
+            if (action.model) {
+                return this.props.updateModel(model, action.model.serialize());
+            }
         }
 
         // Check for single selected items
         if (['node-selected', 'node-moved'].indexOf(action.type) !== -1) {
-            return this.props.updateModel(model, action.model);
+            return this.props.updateModel(model, action.model.serialize());
         }
         // e.g.: items-deleted
         this.props.updateModel(model);

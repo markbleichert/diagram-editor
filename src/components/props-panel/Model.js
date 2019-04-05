@@ -62,7 +62,7 @@ class Port {
     }
 
     setData(obj) {
-        ['label'].forEach((key) => {
+        ['label', 'value', 'image'].forEach((key) => {
             if (this.port[key] !== obj[key]) {
                 this.port[key] = obj[key]
             }

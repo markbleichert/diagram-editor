@@ -105,22 +105,9 @@ class App extends React.Component {
                 <div className="panel middle start scroll">
                     <NodesPanel />
                 </div>
-                <div className="toolbar footer start">
-                    <button className="fa fa-plus-circle"></button>
-                    <button className="fa fa-minus-circle"></button>
-                </div>
+                <div className="toolbar footer start"></div>
 
-                <div className="toolbar header center">
-                    <div className="actionbar">
-                         <ActionBar
-                             selectedId={this.state.model.id}
-                             savedModels={this.state.savedModels}
-                             selectionChanged={this.onSelectionChanged.bind(this)}
-                             modelCreated={this.onModelCreated.bind(this)}
-                             removeModel={this.onRemoveModel.bind(this)}
-                         />
-                     </div>
-                </div>
+                <div className="toolbar header center"></div>
 
                 <div className="content middle center">
                      <div className="diagram-panel">
@@ -136,6 +123,13 @@ class App extends React.Component {
 
                 <div className="toolbar footer center">
                     <button id="toggle-left"> &lt;</button>
+                    <ActionBar
+                        selectedId={this.state.model.id}
+                        savedModels={this.state.savedModels}
+                        selectionChanged={this.onSelectionChanged.bind(this)}
+                        modelCreated={this.onModelCreated.bind(this)}
+                        removeModel={this.onRemoveModel.bind(this)}
+                    />
                     <span className='spacer'></span>
                     <button id="toggle-right"> &gt;</button>
                 </div>
@@ -150,7 +144,7 @@ class App extends React.Component {
                          updateModel={this.onUpdateModel.bind(this)} />
                 </div>
 
-                <div className="toolbar footer end">{this.state.model.name}</div>
+                <div className="toolbar footer end"></div>
             </div>
         );
     }

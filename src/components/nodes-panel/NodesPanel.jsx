@@ -7,13 +7,13 @@ class NodesPanel extends React.Component {
             <div className="panel-wrapper">
                 <div className="nodes-panel">
                     <div className='node-wrapper'>
-                        <Node type='connection' color='rgb(124, 28, 120)'/>
+                        <Node type='connection' color='rgb(238, 238, 238)'/>
                     </div>
                     <div className='node-wrapper'>
-                        <Node type='question' color='rgb(224, 28, 120)'/>
+                        <Node type='question' color='rgb(54, 153, 255)'/>
                     </div>
                     <div className='node-wrapper'>
-                        <Node type='endpoint' color='rgb(0, 155, 20)' />
+                        <Node type='endpoint' color='rgb(235, 20, 76)' />
                     </div>
                 </div>
             </div>

@@ -9,13 +9,13 @@
           [center] auto
           [end] minmax(auto, min-content);
   grid-template-rows:
-          [header] 2.5em
+          [header] 2em
           [middle] auto
           [footer] 2em;
   padding: 0;
   grid-column-gap: 1px;
   grid-row-gap: 1px;
-  background-color: #000;
+  background-color: #3c3c3c;
 }
 
 .start { grid-column-start: start; }
@@ -41,13 +41,18 @@
 .toolbar button {
   background-color: #ccc;
   border: 0px solid black;
+  outline: none;
 }
 .toolbar button:hover {
-  background-color: #888;
+  background-color: #ddd;
+
 }
 .content { background-color: white; }
 
 .footer { background-color: #ccc; }
 .header { background-color: #3c3c3c; color: #fff; }
 .start, .end { min-width: 150px; }
+.end {
+  padding: 5px;
+}
 .closed { display: none; }

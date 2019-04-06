@@ -1,20 +1,27 @@
 
+
 .actionbar {
-  background-color: transparent;
+  display: flex;
 
-  button {
-    padding: 6px;
-    margin: 4px;
-    border-radius: 5px;
-    background-color: #fff !important;
-  }
-
-  button:hover {
-    background-color: #eee !important;
-  }
+  //button { margin: 0px; padding: 3px;}
 
   select {
-    height: 26px;
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    //-webkit-appearance: none;
+    outline: none;
+  }
+
+  select:focus {
+    outline: none;
+  }
+
+  select:hover {
+    background-color: #ddd;
   }
 }
 
@@ -23,7 +30,7 @@
   display: flex;
   flex-direction: column;
   background-color: transparent;
-  height: 90vh;
+  height: 92vh;
 
   .diagram {
     flex: 1.2;
@@ -32,12 +39,12 @@
   }
 
   .preview-panel {
-    flex: 0.8;
+    flex: 1;
     display: flex;
     flex-direction: row;
     background-color: transparent;
     transition:all 500ms ease;
-    margin-top: 20px;
+    margin-top: 0px;
 
     &.expanded {
       flex: 100%;
@@ -109,6 +116,7 @@
     margin: 0px 0px 0px 5px;;
     width: 22px;
     height: 22px;
+    line-height: 10px;
     border-radius: 50%;
     font-size: small;
     opacity: 0.9;
@@ -123,7 +131,8 @@
   .ports-header {
     margin-top: 20px;
     padding: 4px;
-    background: lightblue;
+    background: #3699ff;
+    color: #fff;
     margin-bottom: 0px;
   }
 
@@ -166,8 +175,9 @@
       width: 30%;
       border: 1px solid #ccc;
       text-align: left;
-      padding: 4px;
-      background: lightblue;
+      padding: 8px;
+      background: #3699ff;
+      color: #fff;
     }
 
     tbody th {
@@ -186,15 +196,15 @@
     }
   }
   .container {
-    padding: 5px 35px 15px 25px;
-    //margin: 20px;
+    padding: 5px 20px 15px 20px;
+    margin: 0px;
     //border-radius: 20px;
     background-color: #fff;
     height: 95vm;
   }
 
   .max {
-    height: 100%;
+    //height: 100%;
   }
 }
 
@@ -228,7 +238,7 @@
 .nodes-panel {
   flex-direction: column;
   background-color: transparent;
-  padding: 1rem;
+  padding: 1.5rem;
 
   .node-wrapper {
     margin-bottom: 1rem;
@@ -245,7 +255,8 @@
 
   button {
     height: 20px;
-    width: 20px;
+    width: 25px;
+    line-height: 10px;
   }
 }
 // Diagram SASS

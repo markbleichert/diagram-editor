@@ -9,10 +9,13 @@ class Node extends React.Component {
         const { type, color } = this.props;
 
         if (type === 'connection') {
-            return <ConnectionNodeWidget node={{ name: 'Connection Node' }} color={color} displayOnly/>;
+            return <ConnectionNodeWidget node={{ name: 'QA Connection Node' }} color={color} displayOnly/>;
         }
         if (type === 'question') {
-            return <InputNodeWidget node={{ name: 'QA Node' }} color={color} displayOnly/>;
+            return <InputNodeWidget node={{ name: 'QA Basic Node' }} color={color} displayOnly/>;
+        }
+        if (type === 'content') {
+            return <InputNodeWidget node={{ name: 'QA Content Node' }} color={color} displayOnly/>;
         }
         if (type === 'endpoint') {
             return <EndpointNodeWidget node={{ name: 'Endpoint Node' }} color={color} displayOnly/>;

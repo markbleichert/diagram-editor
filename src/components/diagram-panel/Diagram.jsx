@@ -38,7 +38,7 @@ const target = {
             });
         }
 
-        if (item.type === 'question') {
+        if (item.type === 'content') {
             node = new InputNodeModel('Question Node', 'rgb(192, 255, 0)', {
                 title: '',
                 body: '',
@@ -54,6 +54,10 @@ const target = {
                     body: ''
                 }
             });
+        }
+
+        if (item.type === 'question') {
+            node = new InputNodeModel('Question Node', 'rgb(192, 255, 0)');
         }
 
         if (item.type === 'endpoint') {
@@ -81,6 +85,10 @@ const target = {
         node.x = x;
         node.y = y;
 
+        // clear previously selected item(s)
+        diagramModel.clearSelection();
+
+        // select dropped item
         node.setSelected(true);
 
         diagramModel.addNode(node);

@@ -13,6 +13,9 @@ class NodesPanel extends React.Component {
                         <Node type='question' color='rgb(54, 153, 255)'/>
                     </div>
                     <div className='node-wrapper'>
+                        <Node type='content' color='rgb(154, 153, 255)'/>
+                    </div>
+                    <div className='node-wrapper'>
                         <Node type='endpoint' color='rgb(235, 20, 76)' />
                     </div>
                 </div>

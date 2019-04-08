@@ -72,7 +72,7 @@ class PropsEditor extends React.Component {
 
         const node = im.serialize();
 
-        return  node.ports.pop();
+        return node.ports.pop();
 
     }
 
@@ -98,7 +98,7 @@ class PropsEditor extends React.Component {
                 </div>
             );
         }
-        console.log(selectedNode);
+
         return (
             <div className="props-panel">
                 <div className="container">

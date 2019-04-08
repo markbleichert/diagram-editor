@@ -35,13 +35,14 @@ class App extends React.Component {
     }
 
     addUIEventHandlers() {
-        const $ = (selector) => document.querySelector(selector)
-        const $$ = (selector) => document.querySelectorAll(selector)
-        const on = (elem, type, listener) => elem.addEventListener(type,listener)
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => document.querySelectorAll(selector);
+        const on = (elem, type, listener) => elem.addEventListener(type,listener);
 
         on($('#toggle-left'),'click',()=>{
             $$(".start").forEach((elem) => elem.classList.toggle('closed'))
-        })
+        });
+
         on($('#toggle-right'),'click',()=>{
             $$(".end").forEach((elem) => elem.classList.toggle('closed'))
         });
@@ -116,7 +117,9 @@ class App extends React.Component {
                              model={this.state.model}
                              updateModel={this.onUpdateModel.bind(this)}/>
                          <div className="preview-panel">
-                             <Preview model={this.state.model} selectedNode={this.state.selectedNode}/>
+                             <Preview
+                                 model={this.state.model}
+                                 selectedNode={this.state.selectedNode}/>
                          </div>
                      </div>
                 </div>

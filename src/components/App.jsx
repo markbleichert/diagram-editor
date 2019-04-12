@@ -47,6 +47,7 @@ class App extends React.Component {
             $$(".end").forEach((elem) => elem.classList.toggle('closed'))
         });
     }
+
     onModelCreated() {
         const diagramModel = new RJD.DiagramModel();
 

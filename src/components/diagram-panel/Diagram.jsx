@@ -27,6 +27,9 @@ const target = {
             node = new ConnectionNodeModel('Connection Node', 'rgb(124, 28, 120)', {
                 title: '',
                 body: '',
+                video: {
+                    url: ''
+                },
                 image: {
                     src: '',
                     alt: ''

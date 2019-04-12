@@ -138,6 +138,7 @@ export const transform = function(diagram, selectedNode) {
 
     let rootId = model.nodes[0].id;
 
+    // set selection in preview
     if (selectedNode) {
         rootId = selectedNode.id;
     }
@@ -171,6 +172,7 @@ export const transform = function(diagram, selectedNode) {
             }
         };
     });
+
     // console.log(JSON.stringify(m, null, 2));
     // console.log(m);
     return m;

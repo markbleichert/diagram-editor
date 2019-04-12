@@ -26,22 +26,10 @@ class App extends React.Component {
         }
 
     }
-    componentDidMount() {
-        this.addUIEventHandlers();
-    }
 
-    addUIEventHandlers() {
-        const $ = (selector) => document.querySelector(selector);
-        const $$ = (selector) => document.querySelectorAll(selector);
-        const on = (elem, type, listener) => elem.addEventListener(type,listener);
-
-        on($('#toggle-left'),'click',()=>{
-            $$(".start").forEach((elem) => elem.classList.toggle('closed'))
-        });
-
-        on($('#toggle-right'),'click',()=>{
-            $$(".end").forEach((elem) => elem.classList.toggle('closed'))
-        });
+    closePanel(selector) {
+        document.querySelectorAll(selector)
+            .forEach((elem) => elem.classList.toggle('closed'));
     }
 
     onModelCreated() {
@@ -122,7 +110,7 @@ class App extends React.Component {
                 </div>
 
                 <div className="toolbar footer center">
-                    <button id="toggle-left"> &lt;</button>
+                    <button onClick={this.closePanel.bind(this, '.start')}> &lt;</button>
                     <ActionBar
                         selectedId={this.state.model.id}
                         savedModels={this.state.savedModels}
@@ -131,7 +119,7 @@ class App extends React.Component {
                         removeModel={this.onRemoveModel.bind(this)}
                     />
                     <span className='spacer'></span>
-                    <button id="toggle-right"> &gt;</button>
+                    <button onClick={this.closePanel.bind(this, '.end')}> &gt;</button>
                 </div>
 
 

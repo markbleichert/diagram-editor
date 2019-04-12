@@ -9,6 +9,7 @@ import PropsEditor from './props-panel/PropsEditor';
 import NodesPanel from './nodes-panel/NodesPanel';
 import Preview from './preview-panel/Preview';
 import Storage from './storage';
+import { loadData } from './data/data-import';
 
 import '../style/test.scss';
 
@@ -16,12 +17,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        let models = Storage.getAllFromStorage();
-
-        // needed when nothing in storage
-        if (models.length === 0) {
-           models.push(new RJD.DiagramModel())
-        }
+        let models = loadData();
 
         this.state = {
             savedModels: models,
@@ -66,7 +62,7 @@ class App extends React.Component {
         this.setState({
             model: model,
             selectedId: selectedId,
-            selectedNode: model.nodes[0]
+            selectedNode: null
         });
     }
 

@@ -136,7 +136,7 @@ export const transform = function(diagram, selectedNode) {
         connectors: []
     };
 
-    let rootId = model.nodes[0].id;
+    let rootId = model.root;
 
     // set selection in preview
     if (selectedNode) {

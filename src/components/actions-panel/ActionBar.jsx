@@ -1,5 +1,4 @@
 import React from 'react';
-import Select from 'react-select'
 
 class ActionBar extends React.Component {
     constructor(props) {

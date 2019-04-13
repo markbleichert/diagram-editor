@@ -8,11 +8,8 @@ class Preview extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'iframeLoaded') {
-                this.updatePreview(this.props.model, this.props.selectedNode);
-            }
-        });
+        this.iframe = document.getElementById('preview');
+        window.addEventListener('message', this.onIframeLoaded.bind(this));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -27,17 +24,29 @@ class Preview extends React.Component {
     }
 
     updatePreview(diagramModel, selectedNode) {
-        const iframe = document.getElementById('preview');
-
         if (diagramModel.nodes.length > 0) {
             const model = transform(diagramModel, selectedNode);
-            iframe.contentWindow.qa.start(model, 'qa-module', {
-                onChange: (id) => this.updateSelection(id)
-            });
+            this.updateQARuntime(model);
         } else {
-            const container = iframe.contentDocument.getElementById('qa-module');
-            container.innerHTML = 'Empty diagram: nothing to display..';
+            this.resetIframe();
         }
+    }
+
+    onIframeLoaded(event) {
+        if (event.data.type === 'iframeLoaded') {
+            this.updatePreview(this.props.model, this.props.selectedNode);
+        }
+    }
+
+    updateQARuntime(model) {
+        this.iframe.contentWindow.qa.start(model, 'qa-module', {
+            onChange: (id) => this.updateSelection(id)
+        });
+    }
+
+    resetIframe() {
+        const container = this.iframe.contentDocument.getElementById('qa-module');
+        container.innerHTML = 'Empty diagram: nothing to display..';
     }
 
     toggleWindowSize(e) {
@@ -51,7 +60,6 @@ class Preview extends React.Component {
             parent.classList.add('expanded');
             element.classList.add('is-expanded');
         }
-
     }
 
     render() {

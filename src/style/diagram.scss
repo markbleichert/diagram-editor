@@ -1,4 +1,3 @@
-
 .actionbar {
   display: flex;
 
@@ -29,6 +28,7 @@
   display: flex;
   flex-direction: column;
   background-color: transparent;
+  transition:all 500ms ease;
   height: 92vh;
 
   .diagram {
@@ -49,6 +49,11 @@
       flex: 100%;
     }
 
+    &.minimized {
+      flex: 0;
+      height: 20px;
+    }
+
     &.modal {
       position: fixed;
       top: 50%;
@@ -64,8 +69,82 @@
       flex: 100%;
       flex-direction: column;
 
-      &.is-expanded {
+      .wc-box {
+        display:flex;
+        flex-direction: row;
+        align-items: stretch;
+        padding: 2px 5px 2px 5px;
+        background-color: #f9f9f9;
+        border-top: 1px solid #3C3C3B;
       }
+
+      .wc-box .title {
+        padding: 6px;
+        color: #cccccc;
+        width: 100%;
+      }
+
+      .wc-box div {
+        position: relative;
+        float: left;
+        width: 30px;
+        height: 30px;
+      }
+
+      .wc-box div:before,
+      .wc-box div:after {
+        top: 30%;
+        right: 30%;
+        bottom: 30%;
+        left: 30%;
+        content: " ";
+        position: absolute;
+        border-color: #CCCCCC;
+        border-style: solid;
+        border-width: 0 0 2px 0;
+      }
+
+      .wc-box .minimize:before {
+        border-bottom-width: 2px;
+      }
+
+      .wc-box .maximize:before {
+        border-width: 1px 1px 2px 1px;
+      }
+
+      .wc-box .close:before,
+      .wc-box .close:after {
+        bottom: 50%;
+        top: 50%;
+      }
+
+      .wc-box .close:before {
+        transform: rotate(45deg);
+      }
+
+      .wc-box .close:after {
+        transform: rotate(-45deg);
+      }
+
+      .wc-box div:hover {
+        background-color: #CCCCCC;
+      }
+
+      .wc-box .close:hover {
+        background-color: #E04343;
+      }
+
+      .wc-box div:hover:after,
+      .wc-box div:hover:before {
+        border-color: #333333;
+      }
+
+      .wc-box .close:hover:after,
+      .wc-box .close:hover:before {
+        border-color: #FFFFFF;
+      }
+
+      .spacer { flex: 1; }
     }
 
     button {

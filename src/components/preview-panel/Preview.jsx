@@ -5,6 +5,10 @@ import { transform } from './transformer';
 class Preview extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            title: 'untitled'
+        }
     }
 
     componentDidMount() {
@@ -13,6 +17,8 @@ class Preview extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // @bug: does not check all the way down
+        // when node props change preview will not update
         if (!equal(nextProps.model, this.props.model)) {
             this.updatePreview(nextProps.model, nextProps.selectedNode);
         }
@@ -35,6 +41,9 @@ class Preview extends React.Component {
     onIframeLoaded(event) {
         if (event.data.type === 'iframeLoaded') {
             this.updatePreview(this.props.model, this.props.selectedNode);
+            this.setState({
+                title: this.iframe.contentDocument.title
+            });
         }
     }
 
@@ -49,27 +58,22 @@ class Preview extends React.Component {
         container.innerHTML = 'Empty diagram: nothing to display..';
     }
 
-    toggleWindowSize(e) {
-        const element = e.target;
-        const parent = element.parentElement.parentElement;
-
-        if (element.classList.contains('is-expanded')) {
-            parent.classList.remove('expanded');
-            element.classList.remove('is-expanded');
-        } else {
-            parent.classList.add('expanded');
-            element.classList.add('is-expanded');
-        }
+    // @bug: do not allow from minimized to maximized
+    togglePanel(className, e) {
+        const parent = document.querySelector('.preview-panel');
+        parent.classList.toggle(className);
     }
 
     render() {
         return (
             <div className="preview-wrapper">
-                <button onClick={this.toggleWindowSize.bind(this)}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+                <div className="wc-box">
+                    <span className="title">{ this.state.title }</span>
+                    <span className="spacer"></span>
+                    <div className="minimize" onClick={this.togglePanel.bind(this, 'minimized')}></div>
+                    <div className="maximize" onClick={this.togglePanel.bind(this, 'expanded')}></div>
+                    <div className="close"></div>
+                </div>
                 <iframe id="preview" name="preview" src="./preview.html" width="100%" height="100%" frameBorder="0"/>
             </div>
         )

@@ -115,7 +115,7 @@ class App extends React.Component {
                 </div>
 
                 <div className="toolbar footer center">
-                    <button onClick={this.closePanel.bind(this, '.start')}> &lt;</button>
+                    <button onClick={this.closePanel.bind(this, '.start')}>&lt;</button>
                     <ActionBar
                         selectedId={this.state.model.id}
                         savedModels={this.state.savedModels}
@@ -124,7 +124,7 @@ class App extends React.Component {
                         removeModel={this.onRemoveModel.bind(this)}
                     />
                     <span className='spacer'></span>
-                    <button onClick={this.closePanel.bind(this, '.end')}> &gt;</button>
+                    <button onClick={this.closePanel.bind(this, '.end')}>&gt;</button>
                 </div>
 
 

@@ -119,14 +119,21 @@ class Diagram extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(!_.isEqual(this.props, nextProps)) {
-            this.setModel(nextProps.model, engine);
+            this.setModel(nextProps.model, nextProps.selectedNode);
         }
     }
 
-    setModel(model, cb = null) {
+    setModel(model, selectedNode) {
         diagramModel = new RJD.DiagramModel();
         if (model) {
             diagramModel.deSerializeDiagram(model, engine);
+
+            if (selectedNode) {
+                diagramModel.clearSelection();
+                const nodes = diagramModel.getNodes();
+                const node = nodes[selectedNode.id];
+                node.setSelected(true);
+            }
         }
         engine.setDiagramModel(diagramModel);
     }

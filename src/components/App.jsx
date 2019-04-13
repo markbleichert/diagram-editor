@@ -54,6 +54,10 @@ class App extends React.Component {
         });
     }
 
+    onSelectedNodeChanged(selectedNode) {
+        this.setState({selectedNode});
+    }
+
     onRemoveModel(id) {
         Storage.removeItem(id);
 
@@ -104,6 +108,7 @@ class App extends React.Component {
                          <div className="preview-panel">
                              <Preview
                                  model={this.state.model}
+                                 updateSelectedNode={this.onSelectedNodeChanged.bind(this)}
                                  selectedNode={this.state.selectedNode}/>
                          </div>
                      </div>

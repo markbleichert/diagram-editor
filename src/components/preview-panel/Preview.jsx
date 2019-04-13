@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import equal from 'fast-deep-equal';
 import { transform } from './transformer';
 
 class Preview extends React.Component {
@@ -16,7 +16,14 @@ class Preview extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.updatePreview(nextProps.model, nextProps.selectedNode);
+        if (!equal(nextProps.model, this.props.model)) {
+            this.updatePreview(nextProps.model, nextProps.selectedNode);
+        }
+    }
+
+    updateSelection(id) {
+        const node = this.props.model.nodes.find((node) => node.id === id);
+        this.props.updateSelectedNode(node);
     }
 
     updatePreview(diagramModel, selectedNode) {
@@ -24,11 +31,12 @@ class Preview extends React.Component {
 
         if (diagramModel.nodes.length > 0) {
             const model = transform(diagramModel, selectedNode);
-            iframe.contentWindow.qa.start(model, 'qa-module');
+            iframe.contentWindow.qa.start(model, 'qa-module', {
+                onChange: (id) => this.updateSelection(id)
+            });
         } else {
             const container = iframe.contentDocument.getElementById('qa-module');
             container.innerHTML = 'Empty diagram: nothing to display..';
-
         }
     }
 

@@ -13,6 +13,10 @@ import { loadData } from './data/data-import';
 
 import '../style/test.scss';
 
+function copy(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -75,16 +79,13 @@ class App extends React.Component {
         });
     }
 
-    onUpdateModel(model, _node) {
+    onUpdateModel(model, node) {
         // pass a copy of selected node
-        let node = null;
-        if (_node) {
-            node = JSON.parse(JSON.stringify(_node));
-        }
+        const clone = node? copy(node) : null;
 
         this.setState({
             model: model,
-            selectedNode: node
+            selectedNode: clone
         }, () => Storage.saveToStorage(model));
     }
 
@@ -107,7 +108,7 @@ class App extends React.Component {
                              updateModel={this.onUpdateModel.bind(this)}/>
                          <div className="preview-panel">
                              <Preview
-                                 model={this.state.model}
+                                 model={copy(this.state.model)}
                                  updateSelectedNode={this.onSelectedNodeChanged.bind(this)}
                                  selectedNode={this.state.selectedNode}/>
                          </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import equal from 'fast-deep-equal';
+import _ from 'lodash';
 import { transform } from './transformer';
 
 class Preview extends React.Component {
@@ -17,9 +17,9 @@ class Preview extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // @bug: does not check all the way down
-        // when node props change preview will not update
-        if (!equal(nextProps.model, this.props.model)) {
+        if (!_.isEqual(nextProps.model, this.props.model)) {
+            console.log(this.props.model.nodes[0].ports[1].label);
+            console.log(nextProps.model.nodes[0].ports[1].label);
             this.updatePreview(nextProps.model, nextProps.selectedNode);
         }
     }

@@ -7,7 +7,8 @@ class Preview extends React.Component {
         super(props);
 
         this.state = {
-            title: 'untitled'
+            title: 'untitled',
+            history: []
         }
     }
 
@@ -18,14 +19,14 @@ class Preview extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(nextProps.model, this.props.model)) {
-            console.log(this.props.model.nodes[0].ports[1].label);
-            console.log(nextProps.model.nodes[0].ports[1].label);
-            this.updatePreview(nextProps.model, nextProps.selectedNode);
+            this.setState({ history: [] },
+                () => this.updatePreview(nextProps.model, nextProps.selectedNode));
         }
     }
 
-    updateSelection(id) {
+    updateSelection(id, history) {
         const node = this.props.model.nodes.find((node) => node.id === id);
+        this.setState({ history });
         this.props.updateSelectedNode(node);
     }
 
@@ -49,7 +50,7 @@ class Preview extends React.Component {
 
     updateQARuntime(model) {
         this.iframe.contentWindow.qa.start(model, 'qa-module', {
-            onChange: (id) => this.updateSelection(id)
+            onChange: (id, history) => this.updateSelection(id, history),
         });
     }
 
@@ -68,7 +69,7 @@ class Preview extends React.Component {
         return (
             <div className="preview-wrapper">
                 <div className="wc-box">
-                    <span className="title">{ this.state.title }</span>
+                    <span className="title">{ this.state.title } - { this.state.history.length }</span>
                     <span className="spacer"></span>
                     <div className="minimize" onClick={this.togglePanel.bind(this, 'minimized')}></div>
                     <div className="maximize" onClick={this.togglePanel.bind(this, 'expanded')}></div>

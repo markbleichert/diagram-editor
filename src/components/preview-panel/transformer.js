@@ -131,6 +131,7 @@ export const transform = function(diagram, selectedNode) {
     const model = jsonCopy(diagram);
 
     const m = {
+        name: model.name || 'untitled',
         root: null,
         nodes: [],
         connectors: []
@@ -173,7 +174,5 @@ export const transform = function(diagram, selectedNode) {
         };
     });
 
-    // console.log(JSON.stringify(m, null, 2));
-    // console.log(m);
     return m;
 };

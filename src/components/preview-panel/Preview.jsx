@@ -1,14 +1,17 @@
 import React from 'react';
 import _ from 'lodash';
 import { transform } from './transformer';
+import Modal from 'react-responsive-modal';
 
 class Preview extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            open: false,
             title: 'untitled',
-            history: []
+            history: [],
+            model: {}
         }
     }
 
@@ -33,6 +36,7 @@ class Preview extends React.Component {
     updatePreview(diagramModel, selectedNode) {
         if (diagramModel.nodes.length > 0) {
             const model = transform(diagramModel, selectedNode);
+            this.setState({ model: JSON.stringify(model, 0, 2) });
             this.updateQARuntime(model);
         } else {
             this.resetIframe();
@@ -65,6 +69,14 @@ class Preview extends React.Component {
         parent.classList.toggle(className);
     }
 
+    onOpenModal() {
+        this.setState({ open: true });
+    };
+
+    onCloseModal() {
+        this.setState({ open: false });
+    };
+
     render() {
         return (
             <div className="preview-wrapper">
@@ -73,8 +85,12 @@ class Preview extends React.Component {
                     <span className="spacer"></span>
                     <div className="minimize" onClick={this.togglePanel.bind(this, 'minimized')}></div>
                     <div className="maximize" onClick={this.togglePanel.bind(this, 'expanded')}></div>
-                    <div className="close"></div>
+                    <div className="download" onClick={this.onOpenModal.bind(this)}></div>
                 </div>
+                <Modal open={this.state.open} onClose={this.onCloseModal.bind(this)} center>
+                    <h2>Model</h2>
+                    <textarea className="qa-model" defaultValue={this.state.model}></textarea>
+                </Modal>
                 <iframe id="preview" name="preview" src="./preview.html" width="100%" height="100%" frameBorder="0"/>
             </div>
         )

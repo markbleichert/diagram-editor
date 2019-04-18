@@ -20,15 +20,15 @@ class DownloadModal extends React.Component {
 
     render() {
         return (
-            <div>
-                <button className="download" onClick={this.onOpenModal.bind(this)}></button>
+            <span>
+                <div className="download" onClick={this.onOpenModal.bind(this)}></div>
                 <Modal open={this.state.open} onClose={this.onCloseModal.bind(this)} center>
                     <h2>Model</h2>
                     <p>
                         <textarea className="qa-model" defaultValue={this.props.data}></textarea>
                     </p>
                 </Modal>
-            </div>
+            </span>
         );
     }
 }

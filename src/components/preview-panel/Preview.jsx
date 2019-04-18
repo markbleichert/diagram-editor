@@ -1,14 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
 import { transform } from './transformer';
-import Modal from 'react-responsive-modal';
+import DownloadModal from './Modal';
 
 class Preview extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            open: false,
             title: 'untitled',
             history: [],
             model: {}
@@ -69,14 +68,6 @@ class Preview extends React.Component {
         parent.classList.toggle(className);
     }
 
-    onOpenModal() {
-        this.setState({ open: true });
-    };
-
-    onCloseModal() {
-        this.setState({ open: false });
-    };
-
     render() {
         return (
             <div className="preview-wrapper">
@@ -85,12 +76,8 @@ class Preview extends React.Component {
                     <span className="spacer"></span>
                     <div className="minimize" onClick={this.togglePanel.bind(this, 'minimized')}></div>
                     <div className="maximize" onClick={this.togglePanel.bind(this, 'expanded')}></div>
-                    <div className="download" onClick={this.onOpenModal.bind(this)}></div>
+                    <DownloadModal data={this.state.model} />
                 </div>
-                <Modal open={this.state.open} onClose={this.onCloseModal.bind(this)} center>
-                    <h2>Model</h2>
-                    <textarea className="qa-model" defaultValue={this.state.model}></textarea>
-                </Modal>
                 <iframe id="preview" name="preview" src="./preview.html" width="100%" height="100%" frameBorder="0"/>
             </div>
         )

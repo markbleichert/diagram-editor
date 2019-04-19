@@ -40,9 +40,8 @@ class DownloadModal extends React.Component {
 
     render() {
         return (
-            <span>
-                <div className="download" onClick={this.onOpenModal.bind(this)}></div>
-                <Modal open={this.state.open} onClose={this.onCloseModal.bind(this)} center>
+            <button className="fa fa-download" onClick={this.onOpenModal.bind(this)}>
+                <Modal classNames={{ modal: 'dowload-modal'}} open={this.state.open} onClose={this.onCloseModal.bind(this)} center>
                     <div className="downlad-modal-content">
                         <h2>Model</h2>
                         <p>
@@ -56,7 +55,7 @@ class DownloadModal extends React.Component {
                         <button onClick={this.selectAll.bind(this)}>Copy</button>
                     </div>
                 </Modal>
-            </span>
+            </button>
         );
     }
 }

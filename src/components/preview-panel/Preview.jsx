@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import { transform } from './transformer';
-import DownloadModal from './Modal';
 
 class Preview extends React.Component {
     constructor(props) {
@@ -9,8 +8,7 @@ class Preview extends React.Component {
 
         this.state = {
             title: 'untitled',
-            history: [],
-            model: {}
+            history: []
         }
     }
 
@@ -26,6 +24,10 @@ class Preview extends React.Component {
         }
     }
 
+    onChange(model) {
+        this.props.onChange(JSON.stringify(model, 0, 2));
+    }
+
     updateSelection(id, history) {
         const node = this.props.model.nodes.find((node) => node.id === id);
         this.setState({ history });
@@ -35,8 +37,8 @@ class Preview extends React.Component {
     updatePreview(diagramModel, selectedNode) {
         if (diagramModel.nodes.length > 0) {
             const model = transform(diagramModel, selectedNode);
-            this.setState({ model: JSON.stringify(model, 0, 2) });
             this.updateQARuntime(model);
+            this.onChange(model);
         } else {
             this.resetIframe();
         }
@@ -76,7 +78,6 @@ class Preview extends React.Component {
                     <span className="spacer"></span>
                     <div className="minimize" onClick={this.togglePanel.bind(this, 'minimized')}></div>
                     <div className="maximize" onClick={this.togglePanel.bind(this, 'expanded')}></div>
-                    <DownloadModal data={this.state.model} />
                 </div>
                 <iframe id="preview" name="preview" src="./preview.html" width="100%" height="100%" frameBorder="0"/>
             </div>

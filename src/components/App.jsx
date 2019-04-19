@@ -24,6 +24,7 @@ class App extends React.Component {
         let models = loadData();
 
         this.state = {
+            qadata: {},
             savedModels: models,
             model: models[0],
             selectedNode: null
@@ -89,6 +90,10 @@ class App extends React.Component {
         }, () => Storage.saveToStorage(model));
     }
 
+    onQAModelChange(model) {
+        this.setState({ qadata: model});
+    }
+
     render() {
         return (
             <div id='grid'>
@@ -109,6 +114,7 @@ class App extends React.Component {
                          <div className="preview-panel">
                              <Preview
                                  model={copy(this.state.model)}
+                                 onChange={this.onQAModelChange.bind(this)}
                                  updateSelectedNode={this.onSelectedNodeChanged.bind(this)}
                                  selectedNode={this.state.selectedNode}/>
                          </div>
@@ -118,6 +124,7 @@ class App extends React.Component {
                 <div className="toolbar footer center">
                     <button onClick={this.closePanel.bind(this, '.start')}>&#9664;</button>
                     <ActionBar
+                        data={this.state.qadata}
                         selectedId={this.state.model.id}
                         savedModels={this.state.savedModels}
                         selectionChanged={this.onSelectionChanged.bind(this)}

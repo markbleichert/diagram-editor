@@ -14,6 +14,10 @@ class DownloadModal extends React.Component {
         this.setState({ open: true });
     };
 
+    onKeyDown(e) {
+        e.stopPropagation();
+    }
+
     onCloseModal() {
         this.setState({ open: false });
     };
@@ -44,7 +48,9 @@ class DownloadModal extends React.Component {
                         <p>
                             <textarea
                                 ref={(el) => {this.textArea = el}}
-                                className="qa-model" defaultValue={this.props.data}></textarea>
+                                className="qa-model" defaultValue={this.props.data}
+                                onKeyDown={this.onKeyDown.bind(this)}>
+                            </textarea>
                         </p>
                         <span ref={(el) => {this.message = el}}></span>
                         <button onClick={this.selectAll.bind(this)}>Copy</button>

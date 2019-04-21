@@ -32,7 +32,7 @@ function sanitize(data) {
     return null;
 }
 
-function jsonCopy(src) {
+function clone(src) {
     return JSON.parse(JSON.stringify(src));
 }
 
@@ -128,7 +128,7 @@ function addEndpoint(node) {
 }
 
 export const transform = function(diagram, selectedNode) {
-    const model = jsonCopy(diagram);
+    const model = clone(diagram);
 
     const m = {
         name: model.name || 'untitled',
